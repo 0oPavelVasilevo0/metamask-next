@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <MetaMaskContextProvider>
     {/* <main className="flex min-h-screen flex-col items-center justify-center p-24"> */}
-<main>
+<main className="container">
       {/* <div className="mb-32 flex text-center lg:max-w-xl  lg:mb-0 lg:text-left">
         <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"

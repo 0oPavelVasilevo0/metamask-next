@@ -1,6 +1,20 @@
+.display_container{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+
+}
+
 .display {
-  /* calculated height: view height minus 128 (68*2) px */
-  /* border: 1px solid rgb(224, 157, 0); */
-  height: calc(100% - 136px);
+ height: 400px;
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+  border-radius: 6px;
+  box-shadow: 0px 1px 10px 1px #0dff01;
+  /* height: calc(100% - 136px); */
   padding: 16px;
 }
