@@ -4,7 +4,11 @@ import { useMetaMask } from '../../hooks/useMetaMask'
 import { formatAddress } from '../../utils'
 import styles from './Navigation.module.css'
 
-
+declare global {
+  interface Window {
+    ethereum: any;
+  }
+}
 
 export const Navigation = () => {
 
