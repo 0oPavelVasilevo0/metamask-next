@@ -49,8 +49,10 @@ export const Display = () => {
       <div className={styles.display}>
         {wallet.accounts.length > 0 &&
           <>
-            <div>
-              Wallet Accounts:
+            <div className={styles.accounts_container}>
+              <div className={styles.wallet}>
+               Wallet Accounts:
+               </div>
               <div className='accounts'>
                 {wallet.accounts[0]}
               </div>

@@ -5,10 +5,17 @@
 }
 
 .container {
-    min-height: 100vh;
-        /* margin: 10px 0; */
-        /* display: flex;
+        min-height: 100vh;
+        min-width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        justify-content: center; */
         background: linear-gradient(to right, #2bf9f9, #e757fa);
+}
+
+.text_link {
+    text-decoration: none;
+    cursor: pointer;
+    color: #FFFFFF;
 }
