@@ -6,13 +6,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
 import { useMetaMask } from '@/hooks/useMetaMask';
-import SelectCoins from '../Select/SelectCoins';
-import SelectMoney from '../Select/SelectMoney';
-import CoinButtons from '../Buttons/CoinButtons';
-import MoneyButtons from '../Buttons/MoneyButtons';
-import { RiExchangeLine } from "react-icons/ri";
 import WalletNavigation from '../WalletNavigation/WalletNavigation';
-import { Button, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import DisplayBuy from './DisplayBuy';
 import DisplayExchange from './DisplayExchange';
@@ -85,9 +80,9 @@ export default function Display() {
                     <CustomTabPanel value={value} index={1}>
                         <DisplayExchange />
                     </CustomTabPanel>
-                    <MetaMaskError />
                 </>
             }
+            <MetaMaskError />
         </Box>
     );
 }

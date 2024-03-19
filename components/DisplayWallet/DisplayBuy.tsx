@@ -61,9 +61,11 @@ export default function DisplayBuy() {
     const { wallet } = useMetaMask()
 
 //select Coin
-    const [selectedCoin, setSelectedCoin] = useState('BTC')
+    const [selectedCoin, setSelectedCoin] = useState('choose a coin')
     const handleCoinClick = (coin: React.SetStateAction<string>) => {
-        setSelectedCoin(coin);
+        setSelectedCoin(coin)
+        setInputValue('')
+        setOutputValue('')
     };
 
 //select Cash
@@ -82,32 +84,84 @@ export default function DisplayBuy() {
         setRatesCrypto(rates)
     }
 
-    // useEffect(() => {
-    //     if (bitcoin && bitcoin.usd) {
-    //         setSelectedCoin('BTC');
-    //         setRatesCrypto(`1.00 USD = ${bitcoin.usd} ${selectedCash}`);
-    //     }
-    // }, [bitcoin, selectedCash]);
+//input value
+    const [inputValue, setInputValue] = useState('');
+    const [outputValue, setOutputValue] = useState('');
 
-    useEffect(() => {
-        // Обновляем данные в зависимости от выбранной валюты
-        let rate;
-        switch (selectedCash) {
-            case 'USD':
-                rate = bitcoin?.usd;
-                break;
-            case 'EUR':
-                rate = bitcoin?.eur;
-                break;
-            case 'RUB':
-                rate = bitcoin?.rub;
-                break;
-            default:
-                rate = bitcoin?.usd; // По умолчанию используем USD
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const inputAmount = parseFloat(event.target.value);
+        if (!isNaN(inputAmount)) {
+            setInputValue(event.target.value);
+            let rate;
+            switch (selectedCoin) {
+                case 'BTC':
+                    rate = bitcoin?.usd;
+                    break;
+                case 'ETH':
+                    rate = ethereum?.usd;
+                    break;
+                case 'USDT':
+                    rate = tether?.usd;
+                    break;
+                default:
+                    rate = 1; // Если выбранная монета неизвестна, используем курс 1:1
+            }
+            if (rate) {
+                setOutputValue((inputAmount * rate).toFixed(2));
+            }
+        } else {
+            setInputValue('');
+            setOutputValue('');
         }
-        setRatesCrypto(rate ? `1.00 ${selectedCoin} = ${rate} ${selectedCash}` : '');
-    }, [selectedCoin, selectedCash, bitcoin]);
+    };    
+//перерасчет входного значения- дурно работает----------------------------------------------------------------<
+    // const handleOutputCurrencyChange = (newCoin: string) => {
+    //     setSelectedCoin(newCoin);
+    //     let rate;
+    //     switch (newCoin) {
+    //         case 'BTC':
+    //             rate = bitcoin?.usd;
+    //             break;
+    //         case 'ETH':
+    //             rate = ethereum?.usd;
+    //             break;
+    //         case 'USDT':
+    //             rate = tether?.usd;
+    //             break;
+    //         default:
+    //             rate = 1; // Если выбранная монета неизвестна, используем курс 1:1
+    //     }
+    //     if (rate) {
+    //         setOutputValue((parseFloat(inputValue) * rate).toFixed(2));
+    //     }
+    // };
 
+    // const handleInputAndOutputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     handleInputChange(event); // Вызываем функцию для обработки изменения входного значения
+    //     handleOutputCurrencyChange(selectedCoin); // Вызываем функцию для пересчета выходного значения
+    // };
+//--------------------------------------------------------------------------------------------------------<
+
+ // поломанный вариант-----------------------------------------------------------------------------<
+    // useEffect(() => {
+    //     // Обновляем данные в зависимости от выбранной валюты
+    //     let rate;
+    //     switch (selectedCash) {
+    //         case 'USD':
+    //             rate = bitcoin?.usd;
+    //             break;
+    //         case 'EUR':
+    //             rate = bitcoin?.eur;
+    //             break;
+    //         case 'RUB':
+    //             rate = bitcoin?.rub;
+    //             break;
+    //         default:
+    //             rate = bitcoin?.usd; // По умолчанию используем USD
+    //     }
+    //     setRatesCrypto(rate ? `1.00 ${selectedCoin} = ${rate} ${selectedCash}` : '');
+    // }, [selectedCoin, selectedCash, bitcoin]);
+//-------------------------------------------------------------------------------------------------<
     return (
         <Box sx={
             {
@@ -154,6 +208,9 @@ export default function DisplayBuy() {
                             id="outlined-adornment-amount"
                             endAdornment={<InputAdornment position="end">{selectedCoin}</InputAdornment>}
                             label="balance: 0.000"
+                            value={inputValue}
+                            onChange={handleInputChange}
+                            // onChange={handleInputAndOutputChange}
                         />
                     </FormControl>
                 </Box>
@@ -182,11 +239,14 @@ export default function DisplayBuy() {
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <FormControl fullWidth sx={{ m: 2, mt: 0, mb: 0 }}>
-                        <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+                        {/* <InputLabel htmlFor="outlined-adornment-amount"></InputLabel> */}
                         <OutlinedInput
                             id="outlined-adornment-amount"
                             endAdornment={<InputAdornment position="end">{selectedCash}</InputAdornment>}
-                            label="Amount"
+                            // label="Amount"
+                            // label="Output amount"
+                            value={outputValue}
+                            readOnly
                         />
                     </FormControl>
                 </Box>

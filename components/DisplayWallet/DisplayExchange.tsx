@@ -1,5 +1,5 @@
 'use client'
-import { Button, FormControl, InputAdornment, InputLabel, OutlinedInput, Stack, useMediaQuery, useTheme } from '@mui/material';
+import { Button, FormControl, InputAdornment, InputLabel, OutlinedInput, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react'
 import SelectMoney from '../Select/SelectMoney';
@@ -9,6 +9,7 @@ import { useMetaMask } from '@/hooks/useMetaMask';
 import { PiCurrencyBtcFill } from 'react-icons/pi';
 import { FaEthereum } from 'react-icons/fa';
 import { SiTether } from 'react-icons/si';
+import { CiRepeat } from 'react-icons/ci';
 
 export default function DisplayExchange() {
 
@@ -26,7 +27,7 @@ export default function DisplayExchange() {
         <Box sx={{
             display: isSmallScreen ? 'flex' : 'grid',
             flexDirection: isSmallScreen ? 'column' : undefined,
-            gridTemplateColumns: isSmallScreen ? undefined : '34ch 8ch 34ch',
+            gridTemplateColumns: isSmallScreen ? undefined : '34ch 5ch 34ch',
             justifyContent: isSmallScreen ? 'flex-start' : 'space-between',
         }}
         >
@@ -45,7 +46,7 @@ export default function DisplayExchange() {
                     </Stack>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <FormControl fullWidth sx={{ m: 2 }}>
+                    <FormControl fullWidth sx={{ m: 2, mb: 0, mt: 0 }}>
                         <InputLabel htmlFor="outlined-adornment-amount">
                             balance: {
                                 selectedCoin === 'BTC' ? wallet.bscBalance :
@@ -60,10 +61,14 @@ export default function DisplayExchange() {
                         />
                     </FormControl>
                 </Box>
+                <Box sx={{ mt: 1, ml: 2, mr: 2, display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography fontSize={10} color={'red'}>rates crypto</Typography>
+                    <Typography fontSize={10} >source: <a href='https://www.coingecko.com/ru'>coingecko</a></Typography>
+                </Box>
                 <Button sx={{ m: 2, width: '100px' }} variant='outlined'>Exchange</Button>
             </Box>
-            <Box sx={{ m: 0, display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
-                <RiExchangeLine style={{ width: '68', height: 'auto' }} />
+            <Box sx={{ mb: 3, display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
+                <CiRepeat style={{ width: '44', height: 'auto' }} />
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ m: 2 }}>
@@ -80,7 +85,7 @@ export default function DisplayExchange() {
                     </Stack>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <FormControl fullWidth sx={{ m: 2 }}>
+                    <FormControl fullWidth sx={{ m: 2, mb: 0, mt: 0 }}>
                         <InputLabel htmlFor="outlined-adornment-amount">
                             balance: {
                                 selectedCoin === 'BTC' ? wallet.bscBalance :
