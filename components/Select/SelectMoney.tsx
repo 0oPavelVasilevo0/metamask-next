@@ -27,7 +27,7 @@ const NoBorderTextField = styled(TextField)({
 export default function SelectCoins() {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-            <FormControl fullWidth sx={{ m: 2 }}>
+            <FormControl fullWidth sx={{ m: 2, mt: 0, mb: 0 }}>
                 <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-amount"
