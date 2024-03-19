@@ -16,6 +16,7 @@ import { Button, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import DisplayBuy from './DisplayBuy';
 import DisplayExchange from './DisplayExchange';
+import { MetaMaskError } from '../Error/MetaMaskError';
 
 
 interface TabPanelProps {
@@ -80,51 +81,11 @@ export default function Display() {
                     </Box>
                     <CustomTabPanel value={value} index={0}>
                         <DisplayBuy />
-                        {/* <Box
-                            sx={{
-                                display: isSmallScreen ? 'flex' : 'grid',
-                                flexDirection: isSmallScreen ? 'column' : undefined,
-                                gridTemplateColumns: isSmallScreen ? undefined : '34ch 8ch 34ch',
-                                justifyContent: isSmallScreen ? 'flex-start' : 'space-between',
-                            }}
-                        >
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <CoinButtons />
-                                <SelectCoins />
-                                <Button sx={{ m: 2, width: '100px' }} variant='outlined'>Exchenge</Button>
-                            </Box>
-                            <Box sx={{ m: 0, display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
-                                <RiExchangeLine style={{ width: '68', height: 'auto' }} />
-                            </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <MoneyButtons />
-                                <SelectMoney />
-                            </Box>
-                        </Box> */}
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={1}>
                         <DisplayExchange />
-                        {/* <Box sx={{
-                            display: isSmallScreen ? 'flex' : 'grid',
-                            flexDirection: isSmallScreen ? 'column' : undefined,
-                            gridTemplateColumns: isSmallScreen ? undefined : '34ch 8ch 34ch',
-                            justifyContent: isSmallScreen ? 'flex-start' : 'space-between',
-                        }}
-                        >
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <MoneyButtons />
-                                <SelectMoney />
-                                <Button sx={{ m: 2, width: '100px' }} variant='outlined'>Exchenge</Button>
-                            </Box>
-                            <Box sx={{ m: 0, display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
-                                <RiExchangeLine style={{ width: '68', height: 'auto' }} />
-                            </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <MoneyButtons />
-                                <SelectMoney />
-                            </Box>
-                        </Box> */}
                     </CustomTabPanel>
+                    <MetaMaskError />
                 </>
             }
         </Box>
