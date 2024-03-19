@@ -1,5 +1,5 @@
 'use client'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useMetaMask } from '../../hooks/useMetaMask'
 // import styles from './MetaMaskError.module.css'
 
@@ -13,14 +13,20 @@ export const MetaMaskError = () => {
         //     error ? { backgroundColor: 'brown' } : {}
         // }>
         <>
-            {/* {error &&
-                ( */}
-                    {/* <Box sx={{m: 2}} onClick={clearError}> */}
-                <Box sx={{ m: 2 }} onClick={clearError}>
-                        <strong>Error:</strong> {errorMessage}
+            {error &&
+                (
+                    <Box sx={{
+                        p: 2,
+                        borderRadius: '0 0 6px 6px',
+                        background: 'red'
+                    }}
+                        onClick={clearError}>
+                        <Typography color={'white'} fontSize={16}>
+                            <strong>Error:</strong> User rejected the request{errorMessage}
+                        </Typography>
                     </Box>
-                {/* )
-            } */}
+                )
+            }
         </>
         // </div>
     )
