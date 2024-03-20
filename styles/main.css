@@ -3,7 +3,9 @@
     margin: 0px;
     border: none;
 }
-
+html {
+    background: rgb(38, 38, 38);
+}
 .container {
         min-height: 100vh;
         min-width: 100vw;
@@ -11,11 +13,17 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: linear-gradient(to right, #2bf9f9, #e757fa);
+        /* background: linear-gradient(to right, #2bf9f9, #e757fa); */
+        background: rgb(38, 38, 38);
 }
 
 .text_link {
     text-decoration: none;
     cursor: pointer;
     color: #FFFFFF;
+}
+
+a {
+    text-decoration: none;
+    color: cornflowerblue;
 }

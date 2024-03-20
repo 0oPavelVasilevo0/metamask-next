@@ -53,14 +53,14 @@ const NoBorderTextField = styled(TextField)({
 
 
 export default function DisplayBuy() {
-//media query
+    //media query
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
 
-//Metamask    
+    //Metamask    
     const { wallet } = useMetaMask()
 
-//select Coin
+    //select Coin
     const [selectedCoin, setSelectedCoin] = useState('choose a coin')
     const handleCoinClick = (coin: React.SetStateAction<string>) => {
         setSelectedCoin(coin)
@@ -68,23 +68,23 @@ export default function DisplayBuy() {
         setOutputValue('')
     };
 
-//select Cash
+    //select Cash
     const [selectedCash, setSelectedCash] = useState('USD')
     const handleCashClick = (cash: React.SetStateAction<string>) => {
         setSelectedCash(cash)
     }
 
-//data from coingecko.com
+    //data from coingecko.com
     // const cryptoData = useCryptoData()
     const { bitcoin, ethereum, tether } = useCryptoData();
 
-//rating crypto
+    //rating crypto
     const [ratesCrypto, setRatesCrypto] = useState('')
     const handleRatesClick = (rates: React.SetStateAction<string>) => {
         setRatesCrypto(rates)
     }
 
-//input value
+    //input value
     const [inputValue, setInputValue] = useState('');
     const [outputValue, setOutputValue] = useState('');
 
@@ -113,8 +113,8 @@ export default function DisplayBuy() {
             setInputValue('');
             setOutputValue('');
         }
-    };    
-//перерасчет входного значения- дурно работает----------------------------------------------------------------<
+    };
+    //перерасчет входного значения- дурно работает----------------------------------------------------------------<
     // const handleOutputCurrencyChange = (newCoin: string) => {
     //     setSelectedCoin(newCoin);
     //     let rate;
@@ -140,9 +140,9 @@ export default function DisplayBuy() {
     //     handleInputChange(event); // Вызываем функцию для обработки изменения входного значения
     //     handleOutputCurrencyChange(selectedCoin); // Вызываем функцию для пересчета выходного значения
     // };
-//--------------------------------------------------------------------------------------------------------<
+    //--------------------------------------------------------------------------------------------------------<
 
- // поломанный вариант-----------------------------------------------------------------------------<
+    // поломанный вариант-----------------------------------------------------------------------------<
     // useEffect(() => {
     //     // Обновляем данные в зависимости от выбранной валюты
     //     let rate;
@@ -161,11 +161,13 @@ export default function DisplayBuy() {
     //     }
     //     setRatesCrypto(rate ? `1.00 ${selectedCoin} = ${rate} ${selectedCash}` : '');
     // }, [selectedCoin, selectedCash, bitcoin]);
-//-------------------------------------------------------------------------------------------------<
+    //-------------------------------------------------------------------------------------------------<
     return (
         <Box sx={
             {
                 display: isSmallScreen ? 'flex' : 'grid',
+                // height: isSmallScreen ? '100vh' : undefined,
+                // width: isSmallScreen ? '100vw' : undefined,
                 flexDirection: isSmallScreen ? 'column' : undefined,
                 gridTemplateColumns: isSmallScreen ? undefined : '34ch 5ch 34ch',
                 justifyContent: isSmallScreen ? 'flex-start' : 'space-between',
@@ -174,30 +176,30 @@ export default function DisplayBuy() {
         >
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ m: 2 }}>
-                    <Stack direction="row" spacing={3}>
-                        <Button variant="outlined" startIcon={<PiCurrencyBtcFill />} onClick={() => {
+                    <Stack direction="row" spacing={2}>
+                        <Button fullWidth color='info' variant="outlined" startIcon={<PiCurrencyBtcFill />} onClick={() => {
                             handleCoinClick('BTC')
-                            handleRatesClick(`1.00 BTC = ${bitcoin?.usd} $`)
+                            handleRatesClick(`1.00 BTC = ${bitcoin?.usd} USD`)
                         }} >
                             BTC
                         </Button>
-                        <Button variant="outlined" startIcon={<FaEthereum />} onClick={() => {
+                        <Button fullWidth color='info' variant="outlined" startIcon={<FaEthereum />} onClick={() => {
                             handleCoinClick('ETH')
-                            handleRatesClick(`1.00 ETH = ${ethereum?.usd} $`)
-                            }} >
+                            handleRatesClick(`1.00 ETH = ${ethereum?.usd} USD`)
+                        }} >
                             ETH
                         </Button>
-                        <Button variant="outlined" startIcon={<SiTether />} onClick={() => {
+                        <Button fullWidth color='info' variant="outlined" startIcon={<SiTether />} onClick={() => {
                             handleCoinClick('USDT')
-                            handleRatesClick(`1.00 USDT = ${tether?.usd} $`)
-                            }} >
+                            handleRatesClick(`1.00 USDT = ${tether?.usd} USD`)
+                        }} >
                             USDT
                         </Button>
                     </Stack>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <FormControl fullWidth sx={{ m: 2, mb: 0, mt: 0 }}>
-                        <InputLabel htmlFor="outlined-adornment-amount">
+                        <InputLabel color='primary' htmlFor="outlined-adornment-amount">
                             balance: {
                                 selectedCoin === 'BTC' ? wallet.bscBalance :
                                     selectedCoin === 'ETH' ? wallet.ethBalance :
@@ -210,35 +212,36 @@ export default function DisplayBuy() {
                             label="balance: 0.000"
                             value={inputValue}
                             onChange={handleInputChange}
-                            // onChange={handleInputAndOutputChange}
+                            color='warning'
+                        // onChange={handleInputAndOutputChange}
                         />
                     </FormControl>
                 </Box>
                 <Box sx={{ mt: 1, ml: 2, mr: 2, display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography fontSize={10} color={'red'}>{ratesCrypto}</Typography>
+                    <Typography fontSize={10} color='secondary'>{ratesCrypto}</Typography>
                     <Typography fontSize={10} >source: <a href='https://www.coingecko.com/ru'>coingecko</a></Typography>
                 </Box>
-                <Button sx={{ m: 2, width: '100px' }} variant='outlined'>Buy</Button>
+                <Button sx={{ m: 2, width: '100px' }} color='warning' variant="contained">Buy</Button>
             </Box>
             <Box sx={{ mb: 3, display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
                 <CiRepeat style={{ width: '44', height: 'auto' }} />
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ m: 2 }}>
-                    <Stack direction="row" spacing={3}>
-                        <Button variant="outlined" startIcon={<HiMiniCurrencyDollar />} onClick={() => handleCashClick('USD')}>
+                    <Stack direction="row" spacing={2}>
+                        <Button fullWidth color='success' variant="outlined" startIcon={<HiMiniCurrencyDollar />} onClick={() => handleCashClick('USD')}>
                             USD
                         </Button>
-                        <Button variant="outlined" startIcon={<HiMiniCurrencyEuro />} onClick={() => handleCashClick('EUR')}>
+                        <Button fullWidth color='success' variant="outlined" startIcon={<HiMiniCurrencyEuro />} onClick={() => handleCashClick('EUR')}>
                             EUR
                         </Button>
-                        <Button variant="outlined" startIcon={<PiCurrencyRubFill />} onClick={() => handleCashClick('RUB')}>
+                        <Button fullWidth color='success' variant="outlined" startIcon={<PiCurrencyRubFill />} onClick={() => handleCashClick('RUB')}>
                             RUB
                         </Button>
                     </Stack>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <FormControl fullWidth sx={{ m: 2, mt: 0, mb: 0 }}>
+                    <FormControl fullWidth sx={{ m: 2, mt: 0, }}>
                         {/* <InputLabel htmlFor="outlined-adornment-amount"></InputLabel> */}
                         <OutlinedInput
                             id="outlined-adornment-amount"
@@ -247,6 +250,7 @@ export default function DisplayBuy() {
                             // label="Output amount"
                             value={outputValue}
                             readOnly
+                            color='error'
                         />
                     </FormControl>
                 </Box>

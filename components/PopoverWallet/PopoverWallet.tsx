@@ -12,7 +12,7 @@ export default function PopoverWallet() {
         <PopupState variant="popover" popupId="demo-popup-popover">
             {(popupState: any) => (
                 <div>
-                    <Button variant="outlined" {...bindTrigger(popupState)}>
+                    <Button variant="contained" color='info' {...bindTrigger(popupState)}>
                         Metamask Wallet
                     </Button>
                     <Popover sx={{ textAlign: 'end' }}

@@ -1,28 +1,24 @@
 import { createTheme } from "@mui/material";
+import { amber, blue, blueGrey, brown, common, cyan, deepOrange, deepPurple, green, grey, lightBlue, lightGreen, lime, orange, pink, purple, red, teal, yellow } from "@mui/material/colors/";
 
-// declare module '@mui/material/styles' {
-//     interface BreakpointOverrides {
-//         xs: false; // removes the `xs` breakpoint
-//         sm: false;
-//         md: false;
-//         lg: false;
-//         xl: false;
-//         mobile: true; // adds the `mobile` breakpoint
-//         tablet: true;
-//         laptop: true;
-//         desktop: true;
-//     }
-// }
 
-export const theme = createTheme({
+export const customTheme = createTheme({
     breakpoints: {
         values: {
             xs: 0,
-            sm: 660,
-            md: 900,
+            sm: 440,
+            md: 700,
             lg: 1200,
             xl: 1536,
         },
+    },
+    palette: {
+        primary: blueGrey,
+        secondary: brown,
+        success: green,
+        info: blueGrey,
+        error: red,
+        warning: lime,
     },
 });
 
