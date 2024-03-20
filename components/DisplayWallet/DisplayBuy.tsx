@@ -177,19 +177,19 @@ export default function DisplayBuy() {
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ m: 2 }}>
                     <Stack direction="row" spacing={2}>
-                        <Button fullWidth color='info' variant="outlined" startIcon={<PiCurrencyBtcFill />} onClick={() => {
+                        <Button fullWidth color='info' variant="outlined" startIcon={<PiCurrencyBtcFill fill='orange'/>} onClick={() => {
                             handleCoinClick('BTC')
                             handleRatesClick(`1.00 BTC = ${bitcoin?.usd} USD`)
                         }} >
                             BTC
                         </Button>
-                        <Button fullWidth color='info' variant="outlined" startIcon={<FaEthereum />} onClick={() => {
+                        <Button fullWidth color='info' variant="outlined" startIcon={<FaEthereum fill='blue'/>} onClick={() => {
                             handleCoinClick('ETH')
                             handleRatesClick(`1.00 ETH = ${ethereum?.usd} USD`)
                         }} >
                             ETH
                         </Button>
-                        <Button fullWidth color='info' variant="outlined" startIcon={<SiTether />} onClick={() => {
+                        <Button fullWidth color='info' variant="outlined" startIcon={<SiTether fill='lightGreen'/>} onClick={() => {
                             handleCoinClick('USDT')
                             handleRatesClick(`1.00 USDT = ${tether?.usd} USD`)
                         }} >
@@ -223,7 +223,7 @@ export default function DisplayBuy() {
                 </Box>
                 <Button sx={{ m: 2, width: '100px' }} color='warning' variant="contained">Buy</Button>
             </Box>
-            <Box sx={{ mb: 3, display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
+            <Box sx={{ mb: isSmallScreen ? 0 : 3, display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
                 <CiRepeat style={{ width: '44', height: 'auto' }} />
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
