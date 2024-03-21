@@ -24,6 +24,25 @@ interface MetaMaskContextData {
   clearError: () => void
 }
 
+// interface Ethereum {
+//   on: (event: string, handler: (...args: any[]) => void) => void;
+//   request: (params: { method: string; params?: any[]; }) => Promise<any>;
+//   removeListener: (event: string, handler: (...args: any[]) => void) => void;
+//   // Добавить другие методы, если они используются в коде
+// }
+
+// declare global {
+//   interface Window {
+//     ethereum?: Ethereum;
+//   }
+// }
+
+declare global {
+  interface Window {
+    ethereum: any;
+  }
+}
+
 const disconnectedState: WalletState = { accounts: [], ethBalance: '', ethChainId: '', bscBalance: '', bscChainId: '' }
 
 const MetaMaskContext = createContext<MetaMaskContextData>({} as MetaMaskContextData)

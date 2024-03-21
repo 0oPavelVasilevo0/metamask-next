@@ -6,14 +6,16 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
 import { useMetaMask } from '@/hooks/useMetaMask';
-import WalletNavigation from '../WalletNavigation/WalletNavigation';
+// import WalletNavigation from '../WalletNavigation/WalletNavigation';
 import { ThemeProvider, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import DisplayBuy from './DisplayBuy';
 import DisplayExchange from './DisplayExchange';
 import { MetaMaskError } from '../Error/MetaMaskError';
 import { customTheme } from '../theme/theme';
-
+//https://nextjs.org/docs/messages/react-hydration-error#solution-2-disabling-ssr-on-specific-components
+import dynamic from 'next/dynamic'
+const WalletNav = dynamic(() => import('../WalletNavigation/WalletNavigation'), { ssr: false })
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -76,7 +78,8 @@ export default function Display() {
                     boxShadow: '0px 0px 50px 0px rgb(177, 165, 201)'
                 }
             }>
-                <WalletNavigation />
+                {/* <WalletNavigation /> */}
+                <WalletNav />
                 {wallet.accounts.length > 0 &&
                     <>
                         <Box sx={{ m: 2, borderBottom: 0, borderColor: 'divider' }}>
