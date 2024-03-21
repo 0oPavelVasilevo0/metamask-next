@@ -1,9 +1,7 @@
 'use client'
 import { Button, FormControl, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Typography, styled, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useEffect, useState } from 'react'
-import SelectMoney from '../Select/SelectMoney';
-import MoneyButtons from '../Buttons/MoneyButtons';
+import React, { useState } from 'react'
 import { PiCurrencyBtcFill, PiCurrencyRubFill } from 'react-icons/pi';
 import { FaEthereum } from 'react-icons/fa';
 import { SiTether } from 'react-icons/si';

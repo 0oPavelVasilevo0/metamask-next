@@ -2,9 +2,6 @@
 import { Button, FormControl, InputAdornment, InputLabel, OutlinedInput, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react'
-import SelectMoney from '../Select/SelectMoney';
-import { RiExchangeLine } from 'react-icons/ri';
-import MoneyButtons from '../Buttons/MoneyButtons';
 import { useMetaMask } from '@/hooks/useMetaMask';
 import { PiCurrencyBtcFill } from 'react-icons/pi';
 import { FaEthereum } from 'react-icons/fa';

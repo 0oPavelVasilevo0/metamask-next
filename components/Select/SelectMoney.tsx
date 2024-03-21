@@ -1,8 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import { FormControl, Input, InputAdornment, InputLabel, OutlinedInput, Select, styled } from '@mui/material';
+import { FormControl, Input, InputAdornment, InputLabel, OutlinedInput, styled } from '@mui/material';
 
 const currencies = [
 

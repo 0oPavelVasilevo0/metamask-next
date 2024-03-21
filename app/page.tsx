@@ -1,6 +1,4 @@
 import Display from "@/components/DisplayWallet/Display";
-import { MetaMaskError } from "@/components/Error/MetaMaskError";
-// import { MetaMaskError } from "@/components/MetaMaskError";
 import { MetaMaskContextProvider } from "@/hooks/useMetaMask";
 
 export default function Home() {
@@ -8,7 +6,6 @@ export default function Home() {
     <MetaMaskContextProvider>
       <main className="container">
         <Display />
-        {/* <MetaMaskError /> */}
       </main>
     </MetaMaskContextProvider>
   );

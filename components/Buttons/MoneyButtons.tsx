@@ -1,4 +1,4 @@
-import * as React from 'react';
+'use client'
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { HiMiniCurrencyDollar } from "react-icons/hi2";
