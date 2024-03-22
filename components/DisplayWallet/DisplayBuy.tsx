@@ -1,7 +1,7 @@
 'use client'
 import { Button, FormControl, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Typography, styled, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { PiCurrencyBtcFill, PiCurrencyRubFill } from 'react-icons/pi';
 import { FaEthereum } from 'react-icons/fa';
 import { SiTether } from 'react-icons/si';
@@ -10,45 +10,13 @@ import { CiRepeat } from 'react-icons/ci';
 import useCryptoData from '@/hooks/useCryptoData';
 import { HiMiniCurrencyDollar, HiMiniCurrencyEuro } from 'react-icons/hi2';
 
-// const currencies = [
-
-//     {
-//         value: 'ETH',
-//         label: 'ETH',
-//     },
-//     {
-//         value: 'BTC',
-//         label: 'BTC',
-//     },
-// ];
-// const currencies = [
-
-//     {
-//         value: 'USD',
-//         label: 'USD',
-//     },
-//     {
-//         value: 'EUR',
-//         label: 'EUR',
-//     },
-// ];
-
-// const NoBorderTextField = styled(TextField)({
-//     '& .MuiOutlinedInput-root': {
-//         '& fieldset': {
-//             border: 'none',
-//         },
-//     },
-// });
-
 const NoBorderTextField = styled(TextField)({
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
-            border: 'none',
+            border: '10px',
         },
     },
 });
-
 
 export default function DisplayBuy() {
     //media query
@@ -59,7 +27,7 @@ export default function DisplayBuy() {
     const { wallet } = useMetaMask()
 
     //select Coin
-    const [selectedCoin, setSelectedCoin] = useState('choose a coin')
+    const [selectedCoin, setSelectedCoin] = useState('')
     const handleCoinClick = (coin: React.SetStateAction<string>) => {
         setSelectedCoin(coin)
         setInputValue('')
@@ -68,12 +36,12 @@ export default function DisplayBuy() {
 
     //select Cash
     const [selectedCash, setSelectedCash] = useState('USD')
+
     const handleCashClick = (cash: React.SetStateAction<string>) => {
         setSelectedCash(cash)
     }
 
     //data from coingecko.com
-    // const cryptoData = useCryptoData()
     const { bitcoin, ethereum, tether } = useCryptoData();
 
     //rating crypto
@@ -81,6 +49,11 @@ export default function DisplayBuy() {
     const handleRatesClick = (rates: React.SetStateAction<string>) => {
         setRatesCrypto(rates)
     }
+
+    // Обновляем состояние ввода при изменении выбранной монеты или валюты
+    useEffect(() => {
+        handleInputChange({ target: { value: inputValue } } as React.ChangeEvent<HTMLInputElement>); // Вызываем функцию handleInputChange при изменении selectedCash
+    }, [selectedCash]);
 
     //input value
     const [inputValue, setInputValue] = useState('');
@@ -92,14 +65,59 @@ export default function DisplayBuy() {
             setInputValue(event.target.value);
             let rate;
             switch (selectedCoin) {
-                case 'BTC':
-                    rate = bitcoin?.usd;
+                case ('BTC'):
+                    // rate = bitcoin?.usd;
+                    // break;
+                    switch (selectedCash) {
+                        case 'USD':
+                            rate = bitcoin?.usd;
+                            break;
+                        case 'EUR':
+                            rate = bitcoin?.eur;
+                            break;
+                        case 'RUB':
+                            rate = bitcoin?.rub;
+                            break;
+                        default:
+                            rate = 1; // Если выбранная валюта неизвестна, используйте курс 1:1
+                            break;
+                    }
                     break;
                 case 'ETH':
-                    rate = ethereum?.usd;
+                    // rate = ethereum?.usd;
+                    // break;
+                    switch (selectedCash) {
+                        case 'USD':
+                            rate = ethereum?.usd;
+                            break;
+                        case 'EUR':
+                            rate = ethereum?.eur;
+                            break;
+                        case 'RUB':
+                            rate = ethereum?.rub;
+                            break;
+                        default:
+                            rate = 1; // Если выбранная валюта неизвестна, используйте курс 1:1
+                            break;
+                    }
                     break;
                 case 'USDT':
-                    rate = tether?.usd;
+                    // rate = tether?.usd;
+                    // break;
+                    switch (selectedCash) {
+                        case 'USD':
+                            rate = tether?.usd;
+                            break;
+                        case 'EUR':
+                            rate = tether?.eur;
+                            break;
+                        case 'RUB':
+                            rate = tether?.rub;
+                            break;
+                        default:
+                            rate = 1; // Если выбранная валюта неизвестна, используйте курс 1:1
+                            break;
+                    }
                     break;
                 default:
                     rate = 1; // Если выбранная монета неизвестна, используем курс 1:1
@@ -112,54 +130,7 @@ export default function DisplayBuy() {
             setOutputValue('');
         }
     };
-    //перерасчет входного значения- дурно работает----------------------------------------------------------------<
-    // const handleOutputCurrencyChange = (newCoin: string) => {
-    //     setSelectedCoin(newCoin);
-    //     let rate;
-    //     switch (newCoin) {
-    //         case 'BTC':
-    //             rate = bitcoin?.usd;
-    //             break;
-    //         case 'ETH':
-    //             rate = ethereum?.usd;
-    //             break;
-    //         case 'USDT':
-    //             rate = tether?.usd;
-    //             break;
-    //         default:
-    //             rate = 1; // Если выбранная монета неизвестна, используем курс 1:1
-    //     }
-    //     if (rate) {
-    //         setOutputValue((parseFloat(inputValue) * rate).toFixed(2));
-    //     }
-    // };
 
-    // const handleInputAndOutputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     handleInputChange(event); // Вызываем функцию для обработки изменения входного значения
-    //     handleOutputCurrencyChange(selectedCoin); // Вызываем функцию для пересчета выходного значения
-    // };
-    //--------------------------------------------------------------------------------------------------------<
-
-    // поломанный вариант-----------------------------------------------------------------------------<
-    // useEffect(() => {
-    //     // Обновляем данные в зависимости от выбранной валюты
-    //     let rate;
-    //     switch (selectedCash) {
-    //         case 'USD':
-    //             rate = bitcoin?.usd;
-    //             break;
-    //         case 'EUR':
-    //             rate = bitcoin?.eur;
-    //             break;
-    //         case 'RUB':
-    //             rate = bitcoin?.rub;
-    //             break;
-    //         default:
-    //             rate = bitcoin?.usd; // По умолчанию используем USD
-    //     }
-    //     setRatesCrypto(rate ? `1.00 ${selectedCoin} = ${rate} ${selectedCash}` : '');
-    // }, [selectedCoin, selectedCash, bitcoin]);
-    //-------------------------------------------------------------------------------------------------<
     return (
         <Box sx={
             {
@@ -175,19 +146,19 @@ export default function DisplayBuy() {
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ m: 2 }}>
                     <Stack direction="row" spacing={2}>
-                        <Button fullWidth color='info' variant="outlined" startIcon={<PiCurrencyBtcFill fill='orange'/>} onClick={() => {
+                        <Button fullWidth color='info' variant="outlined" startIcon={<PiCurrencyBtcFill fill='orange' />} onClick={() => {
                             handleCoinClick('BTC')
                             handleRatesClick(`1.00 BTC = ${bitcoin?.usd} USD`)
                         }} >
                             BTC
                         </Button>
-                        <Button fullWidth color='info' variant="outlined" startIcon={<FaEthereum fill='blue'/>} onClick={() => {
+                        <Button fullWidth color='info' variant="outlined" startIcon={<FaEthereum fill='blue' />} onClick={() => {
                             handleCoinClick('ETH')
                             handleRatesClick(`1.00 ETH = ${ethereum?.usd} USD`)
                         }} >
                             ETH
                         </Button>
-                        <Button fullWidth color='info' variant="outlined" startIcon={<SiTether fill='lightGreen'/>} onClick={() => {
+                        <Button fullWidth color='info' variant="outlined" startIcon={<SiTether fill='lightGreen' />} onClick={() => {
                             handleCoinClick('USDT')
                             handleRatesClick(`1.00 USDT = ${tether?.usd} USD`)
                         }} >
@@ -201,17 +172,17 @@ export default function DisplayBuy() {
                             balance: {
                                 selectedCoin === 'BTC' ? wallet.bscBalance :
                                     selectedCoin === 'ETH' ? wallet.ethBalance :
-                                        ''
+                                        'choose coin'
                             }
                         </InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-amount"
                             endAdornment={<InputAdornment position="end">{selectedCoin}</InputAdornment>}
                             label="balance: 0.000"
+                            disabled={selectedCoin ? false : true}
                             value={inputValue}
                             onChange={handleInputChange}
                             color='warning'
-                        // onChange={handleInputAndOutputChange}
                         />
                     </FormControl>
                 </Box>
@@ -230,7 +201,9 @@ export default function DisplayBuy() {
                         <Button fullWidth color='success' variant="outlined" startIcon={<HiMiniCurrencyDollar />} onClick={() => handleCashClick('USD')}>
                             USD
                         </Button>
-                        <Button fullWidth color='success' variant="outlined" startIcon={<HiMiniCurrencyEuro />} onClick={() => handleCashClick('EUR')}>
+                        <Button fullWidth color='success' variant="outlined" startIcon={<HiMiniCurrencyEuro />} onClick={() =>{ 
+                            handleCashClick('EUR')
+                            }}>
                             EUR
                         </Button>
                         <Button fullWidth color='success' variant="outlined" startIcon={<PiCurrencyRubFill />} onClick={() => handleCashClick('RUB')}>
@@ -240,12 +213,11 @@ export default function DisplayBuy() {
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <FormControl fullWidth sx={{ m: 2, mt: 0, }}>
-                        {/* <InputLabel htmlFor="outlined-adornment-amount"></InputLabel> */}
+                        <InputLabel htmlFor="outlined-adornment-amount">output amount</InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-amount"
                             endAdornment={<InputAdornment position="end">{selectedCash}</InputAdornment>}
-                            // label="Amount"
-                            // label="Output amount"
+                            label="output amount"
                             value={outputValue}
                             readOnly
                             color='error'
