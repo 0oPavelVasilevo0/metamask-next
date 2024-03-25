@@ -62,7 +62,7 @@ export default function WalletNavigation() {
 
             {/* Показываем кнопку для подключения к MetaMask, если провайдер установлен */}
             {window.ethereum?.isMetaMask && wallet.accounts.length < 1 && (
-                <Button color='info' disabled={isConnecting} onClick={connectMetaMask}>
+                <Button disabled={isConnecting} onClick={connectMetaMask}>
                     Connect MetaMask
                 </Button>
             )}

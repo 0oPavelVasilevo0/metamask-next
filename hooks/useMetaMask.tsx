@@ -10,8 +10,8 @@ interface WalletState {
   ethBalance: string
   // chainId: string
   ethChainId: string
-  bscBalance: string
-  bscChainId: string
+  bnbBalance: string
+  bnbChainId: string
 }
 
 interface MetaMaskContextData {
@@ -43,7 +43,7 @@ declare global {
   }
 }
 
-const disconnectedState: WalletState = { accounts: [], ethBalance: '', ethChainId: '', bscBalance: '', bscChainId: '' }
+const disconnectedState: WalletState = { accounts: [], ethBalance: '', ethChainId: '', bnbBalance: '', bnbChainId: '' }
 
 const MetaMaskContext = createContext<MetaMaskContextData>({} as MetaMaskContextData)
 
@@ -77,15 +77,15 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
     })
 
     // For Binance Smart Chain
-    const bscBalance = formatBalance(await window.ethereum.request({
+    const bnbBalance = formatBalance(await window.ethereum.request({
       method: 'eth_getBalance',
       params: [accounts[0], 'latest'],
       // Use BSC chain ID
       chainId: '0x38', // Binance Smart Chain Mainnet chain ID
     }))
-    const bscChainId = '0x38' // Binance Smart Chain Mainnet chain ID
+    const bnbChainId = '0x38' // Binance Smart Chain Mainnet chain ID
 
-    setWallet({ accounts, ethBalance, ethChainId, bscBalance, bscChainId })
+    setWallet({ accounts, ethBalance, ethChainId, bnbBalance, bnbChainId })
   }, [])
 
   const updateWalletAndAccounts = useCallback(() => _updateWallet(), [_updateWallet])

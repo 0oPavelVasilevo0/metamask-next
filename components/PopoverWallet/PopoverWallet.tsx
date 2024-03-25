@@ -1,4 +1,4 @@
-import * as React from 'react';
+'use client'
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
@@ -12,7 +12,7 @@ export default function PopoverWallet() {
         <PopupState variant="popover" popupId="demo-popup-popover">
             {(popupState: any) => (
                 <div>
-                    <Button variant="contained" color='info' {...bindTrigger(popupState)}>
+                    <Button variant="contained" {...bindTrigger(popupState)}>
                         Metamask Wallet
                     </Button>
                     <Popover sx={{ textAlign: 'end' }}
@@ -35,13 +35,13 @@ export default function PopoverWallet() {
                                 target="_blank"
                                 data-tooltip="Open in Block Explorer" rel="noreferrer"
                             >
-                                {/* {formatAddress(wallet.accounts[0])} */}
+                                {formatAddress(wallet.accounts[0])}
                                 Go to etherscan
                             </a>
                         </Typography>
                         {/* </Button> */}
                         <Typography sx={{ p: 2 }}>ETH: {wallet.ethBalance}</Typography>
-                        <Typography sx={{ p: 2 }}>BTC: {wallet.bscBalance}</Typography>
+                        <Typography sx={{ p: 2 }}>BNB: {wallet.bnbBalance}</Typography>
                     </Popover>
                 </div>
             )}

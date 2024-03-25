@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material";
-import { amber, blue, blueGrey, brown, common, cyan, deepOrange, deepPurple, green, grey, lightBlue, lightGreen, lime, orange, pink, purple, red, teal, yellow } from "@mui/material/colors/";
+import { amber, blue, blueGrey, brown, common, cyan, deepOrange, deepPurple, green, grey, lightBlue, lightGreen, lime, orange, pink, purple, red, teal, yellow, indigo } from "@mui/material/colors/";
 
 
 export const customTheme = createTheme({
@@ -15,8 +15,8 @@ export const customTheme = createTheme({
     palette: {
         primary: blueGrey,
         secondary: brown,
-        success: green,
-        info: blueGrey,
+        success: teal,
+        info: brown,
         error: red,
         warning: lime,
     },

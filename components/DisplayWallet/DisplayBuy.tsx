@@ -4,11 +4,13 @@ import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react'
 import { PiCurrencyBtcFill, PiCurrencyRubFill } from 'react-icons/pi';
 import { FaEthereum } from 'react-icons/fa';
-import { SiTether } from 'react-icons/si';
+import { SiBinance, SiTether } from 'react-icons/si';
 import { useMetaMask } from '@/hooks/useMetaMask';
 import { CiRepeat } from 'react-icons/ci';
 import useCryptoData from '@/hooks/useCryptoData';
 import { HiMiniCurrencyDollar, HiMiniCurrencyEuro } from 'react-icons/hi2';
+import { usePathname } from 'next/navigation';
+import path from 'path';
 
 const NoBorderTextField = styled(TextField)({
     '& .MuiOutlinedInput-root': {
@@ -22,6 +24,9 @@ export default function DisplayBuy() {
     //media query
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
+    //active button
+    // const [isBtnActive, setIsBtnActive] = useState(false);
+    // const [isBtnFocused, setIsBtnFocused] = useState(false);
 
     //Metamask    
     const { wallet } = useMetaMask()
@@ -36,13 +41,47 @@ export default function DisplayBuy() {
 
     //select Cash
     const [selectedCash, setSelectedCash] = useState('USD')
-
-    const handleCashClick = (cash: React.SetStateAction<string>) => {
-        setSelectedCash(cash)
-    }
+    // рабочий вариант
+    // const handleCashClick = (cash: React.SetStateAction<string>) => {
+    //     setSelectedCash(cash)
+    // }
+    //новый вариант
+    const handleCashClick = (cash: string) => {
+        setSelectedCash(cash); // Обновляем выбранную валюту
+        // Обновляем курс в зависимости от выбранной валюты
+        let rate;
+        switch (selectedCoin) {
+            case 'BNB':
+                rate = cash === 'USD' ? binancecoin?.usd : cash === 'EUR' ? binancecoin?.eur : cash === 'RUB' ? binancecoin?.rub : 0;
+                break;
+            case 'ETH':
+                rate = cash === 'USD' ? ethereum?.usd : cash === 'EUR' ? ethereum?.eur : cash === 'RUB' ? ethereum?.rub : 0;
+                break;
+            case 'USDT':
+                rate = cash === 'USD' ? tether?.usd : cash === 'EUR' ? tether?.eur : cash === 'RUB' ? tether?.rub : 0;
+                break;
+            default:
+                rate = 0; // Если выбранная монета неизвестна, используем курс 0
+                break;
+        }
+        setRatesCrypto(`1.00 ${selectedCoin} = ${rate} ${cash}`); // Устанавливаем новый курс в состояние
+    };
+    //Эта функция будет возвращать курс для указанной криптовалюты (BNB, ETH, USDT) в выбранной валюте (USD, EUR, RUB)
+    const ratesInSelectedCash = (coin: string) => {
+        switch (selectedCash) {
+            case 'USD':
+                return coin === 'BNB' ? binancecoin?.usd : coin === 'ETH' ? ethereum?.usd : coin === 'USDT' ? tether?.usd : 0;
+            case 'EUR':
+                return coin === 'BNB' ? binancecoin?.eur : coin === 'ETH' ? ethereum?.eur : coin === 'USDT' ? tether?.eur : 0;
+            case 'RUB':
+                return coin === 'BNB' ? binancecoin?.rub : coin === 'ETH' ? ethereum?.rub : coin === 'USDT' ? tether?.rub : 0;
+            default:
+                return 0; // Если выбранная валюта неизвестна, вернуть 0
+        }
+    };
 
     //data from coingecko.com
-    const { bitcoin, ethereum, tether } = useCryptoData();
+    const { binancecoin, ethereum, tether } = useCryptoData();
 
     //rating crypto
     const [ratesCrypto, setRatesCrypto] = useState('')
@@ -65,21 +104,21 @@ export default function DisplayBuy() {
             setInputValue(event.target.value);
             let rate;
             switch (selectedCoin) {
-                case ('BTC'):
-                    // rate = bitcoin?.usd;
+                case ('BNB'):
+                    // rate = binancecoin?.usd;
                     // break;
                     switch (selectedCash) {
                         case 'USD':
-                            rate = bitcoin?.usd;
+                            rate = binancecoin?.usd;
                             break;
                         case 'EUR':
-                            rate = bitcoin?.eur;
+                            rate = binancecoin?.eur;
                             break;
                         case 'RUB':
-                            rate = bitcoin?.rub;
+                            rate = binancecoin?.rub;
                             break;
                         default:
-                            rate = 1; // Если выбранная валюта неизвестна, используйте курс 1:1
+                            rate = 1; // Если выбранная валюта неизвестна, используем курс 1:1
                             break;
                     }
                     break;
@@ -97,7 +136,7 @@ export default function DisplayBuy() {
                             rate = ethereum?.rub;
                             break;
                         default:
-                            rate = 1; // Если выбранная валюта неизвестна, используйте курс 1:1
+                            rate = 1; // Если выбранная валюта неизвестна, используем курс 1:1
                             break;
                     }
                     break;
@@ -115,7 +154,7 @@ export default function DisplayBuy() {
                             rate = tether?.rub;
                             break;
                         default:
-                            rate = 1; // Если выбранная валюта неизвестна, используйте курс 1:1
+                            rate = 1; // Если выбранная валюта неизвестна, используем курс 1:1
                             break;
                     }
                     break;
@@ -146,38 +185,70 @@ export default function DisplayBuy() {
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ m: 2 }}>
                     <Stack direction="row" spacing={2}>
-                        <Button fullWidth color='info' variant="outlined" startIcon={<PiCurrencyBtcFill fill='orange' />} onClick={() => {
-                            handleCoinClick('BTC')
-                            handleRatesClick(`1.00 BTC = ${bitcoin?.usd} USD`)
-                        }} >
-                            BTC
+                        <Button fullWidth
+                            // color='info'
+                            variant={selectedCoin === 'BNB' ? 'contained' : 'outlined'}
+                            startIcon={<SiBinance fill='orange' />}
+                            onClick={() => {
+                                handleCoinClick('BNB')
+                                // handleRatesClick(`1.00 BNB = ${binancecoin?.usd} USD`)
+                                handleRatesClick(`1.00 BNB = ${ratesInSelectedCash('BNB')} ${selectedCash}`)
+                                // setIsBtnActive(true);
+                            }} >
+                            BNB
                         </Button>
-                        <Button fullWidth color='info' variant="outlined" startIcon={<FaEthereum fill='blue' />} onClick={() => {
-                            handleCoinClick('ETH')
-                            handleRatesClick(`1.00 ETH = ${ethereum?.usd} USD`)
-                        }} >
+                        <Button fullWidth
+                            // sx={{ color: 'blue', background: 'lime' }}
+                            // color='info'
+                            variant={selectedCoin === 'ETH' ? 'contained' : 'outlined'}
+                            startIcon={<FaEthereum fill='DodgerBlue' />}
+                            onClick={() => {
+                                handleCoinClick('ETH')
+                                // handleRatesClick(`1.00 ETH = ${ethereum?.usd} USD`)
+                                handleRatesClick(`1.00 ETH = ${ratesInSelectedCash('ETH')} ${selectedCash}`)
+                                // setIsBtnFocused(true);
+                            }}
+                        // onFocus={() => {
+                        //     if (selectedCoin === 'ETH') {
+                        //         setIsBtnFocused(false);
+                        //     }
+                        // }}
+                        >
                             ETH
                         </Button>
-                        <Button fullWidth color='info' variant="outlined" startIcon={<SiTether fill='lightGreen' />} onClick={() => {
-                            handleCoinClick('USDT')
-                            handleRatesClick(`1.00 USDT = ${tether?.usd} USD`)
-                        }} >
+                        <Button fullWidth
+                            // color='info'
+                            variant={selectedCoin === 'USDT' ? 'contained' : 'outlined'}
+                            startIcon={<SiTether fill='limeGreen' />}
+                            onClick={() => {
+                                handleCoinClick('USDT')
+                                // handleRatesClick(`1.00 USDT = ${tether?.usd} USD`)
+                                handleRatesClick(`1.00 USDT = ${ratesInSelectedCash('USDT')} ${selectedCash}`)
+                            }} >
                             USDT
                         </Button>
                     </Stack>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <FormControl fullWidth sx={{ m: 2, mb: 0, mt: 0 }}>
-                        <InputLabel color='primary' htmlFor="outlined-adornment-amount">
+                        <InputLabel htmlFor="outlined-adornment-amount">
                             balance: {
-                                selectedCoin === 'BTC' ? wallet.bscBalance :
+                                selectedCoin === 'BNB' ? wallet.bnbBalance :
                                     selectedCoin === 'ETH' ? wallet.ethBalance :
                                         'choose coin'
                             }
                         </InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-amount"
-                            endAdornment={<InputAdornment position="end">{selectedCoin}</InputAdornment>}
+                            endAdornment={<InputAdornment position="end">
+                                <Typography
+                                    color={
+                                        selectedCoin === 'BNB' ? 'orange' :
+                                            selectedCoin === 'ETH' ? 'DodgerBlue' :
+                                                selectedCoin === 'USDT' ? 'limeGreen' : 'dark'}>
+                                    {selectedCoin}
+                                </Typography>
+                            </InputAdornment>}
                             label="balance: 0.000"
                             disabled={selectedCoin ? false : true}
                             value={inputValue}
@@ -187,10 +258,15 @@ export default function DisplayBuy() {
                     </FormControl>
                 </Box>
                 <Box sx={{ mt: 1, ml: 2, mr: 2, display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography fontSize={10} color='secondary'>{ratesCrypto}</Typography>
+                    <Typography fontSize={10} color='secondary'>{selectedCoin ? ratesCrypto : ''}</Typography>
                     <Typography fontSize={10} >source: <a href='https://www.coingecko.com/ru'>coingecko</a></Typography>
                 </Box>
-                <Button sx={{ m: 2, width: '100px' }} color='warning' variant="contained">Buy</Button>
+                <Button sx={{ m: 2, width: '100px' }} color='warning'
+                    variant="contained"
+                    disabled={selectedCoin ? false : true}
+                >
+                    Buy
+                </Button>
             </Box>
             <Box sx={{ mb: isSmallScreen ? 0 : 3, display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
                 <CiRepeat style={{ width: '44', height: 'auto' }} />
@@ -198,15 +274,28 @@ export default function DisplayBuy() {
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ m: 2 }}>
                     <Stack direction="row" spacing={2}>
-                        <Button fullWidth color='success' variant="outlined" startIcon={<HiMiniCurrencyDollar />} onClick={() => handleCashClick('USD')}>
+                        <Button fullWidth
+                            color='success'
+                            variant={selectedCash === 'USD' ? 'contained' : 'outlined'}
+                            // disabled={selectedCoin ? false : true}
+                            startIcon={<HiMiniCurrencyDollar />}
+                            onClick={() => handleCashClick('USD')}>
                             USD
                         </Button>
-                        <Button fullWidth color='success' variant="outlined" startIcon={<HiMiniCurrencyEuro />} onClick={() =>{ 
-                            handleCashClick('EUR')
-                            }}>
+                        <Button fullWidth
+                            color='success'
+                            variant={selectedCash === 'EUR' ? 'contained' : 'outlined'}
+                            // disabled={selectedCoin ? false : true}
+                            startIcon={<HiMiniCurrencyEuro />}
+                            onClick={() => { handleCashClick('EUR') }}>
                             EUR
                         </Button>
-                        <Button fullWidth color='success' variant="outlined" startIcon={<PiCurrencyRubFill />} onClick={() => handleCashClick('RUB')}>
+                        <Button fullWidth
+                            color='success'
+                            variant={selectedCash === 'RUB' ? 'contained' : 'outlined'}
+                            // disabled={selectedCoin ? false : true}
+                            startIcon={<PiCurrencyRubFill />}
+                            onClick={() => handleCashClick('RUB')}>
                             RUB
                         </Button>
                     </Stack>
@@ -216,8 +305,10 @@ export default function DisplayBuy() {
                         <InputLabel htmlFor="outlined-adornment-amount">output amount</InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-amount"
-                            endAdornment={<InputAdornment position="end">{selectedCash}</InputAdornment>}
+                            endAdornment={<InputAdornment position="end"><Typography color={'teal'}>{selectedCash}</Typography></InputAdornment>}
                             label="output amount"
+                            // disabled={selectedCoin ? false : true}
+                            disabled={outputValue ? false : true}
                             value={outputValue}
                             readOnly
                             color='error'
