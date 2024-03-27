@@ -191,13 +191,13 @@ export default function DisplaySend() {
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ m: 2 }}>
-                    <Stack direction="row" spacing={2}>
-                        <FormControl fullWidth sx={{ m: 2 }}>
+                    <Stack direction="row" spacing={0}>
+                        <FormControl fullWidth sx={{ m: 0 }}>
                             <InputLabel sx={{ fontSize: '10px' }} size='small' htmlFor="outlined-adornment-amount">
                                 gasPrice
                             </InputLabel>
                             <OutlinedInput
-                                sx={{ fontSize: '14px' }}
+                                sx={{ fontSize: '14px',borderRadius:'4px 0 0 4px' }}
                                 size='small'
                                 label="gasPrice"
                                 // value={gasLimit}
@@ -206,12 +206,12 @@ export default function DisplaySend() {
                                 disabled={true}
                             />
                         </FormControl>
-                        <FormControl fullWidth sx={{ m: 2 }}>
+                        <FormControl fullWidth sx={{ m: 0 }}>
                             <InputLabel sx={{ fontSize: '10px' }} size='small' htmlFor="outlined-adornment-amount">
                                 Total Amount
                             </InputLabel>
                             <OutlinedInput
-                                sx={{ fontSize: '14px' }}
+                                sx={{ fontSize: '14px', borderRadius: ' 0 4px 4px 0' }}
                                 size='small'
                                 label="Total Amount"
                                 // value={maxPriorityFeePerGas}
@@ -224,7 +224,7 @@ export default function DisplaySend() {
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
 
-                    <FormControl fullWidth sx={{ m: 2, mt: 0, mb: 3 }}>
+                    <FormControl fullWidth sx={{ m: 2, mt: 0 }}>
                         <InputLabel htmlFor="outlined-adornment-amount">
                             {recipientAddress.length === 42 ? 'correct address entered' : recipientAddress.length === 0 ? 'enter address recipient' : 'invalid address entered'}
                         </InputLabel>
