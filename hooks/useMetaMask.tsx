@@ -118,7 +118,7 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
     }
     setIsConnecting(false)
   }
-//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
   const addChain = async (chainId: number, chainName: string, rpcUrls: string[]) => {
     try {
       await window.ethereum.request({
@@ -159,13 +159,15 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
       }
     };
 
-    window.ethereum.on("chainChanged", handleChainChanged);
+    if (window.ethereum) { // Проверка наличия window.ethereum
+      window.ethereum.on("chainChanged", handleChainChanged);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ERROR
 
-    return () => {
-      window.ethereum.removeListener("chainChanged", handleChainChanged);
-    };
+      return () => {
+        window.ethereum.removeListener("chainChanged", handleChainChanged);
+      };
+    }
   }, [updateWalletAndAccounts]);
-//---------------------------------------------------------------------------------------------------
+  //---------------------------------------------------------------------------------------------------
   return (
     <MetaMaskContext.Provider
       value={{
