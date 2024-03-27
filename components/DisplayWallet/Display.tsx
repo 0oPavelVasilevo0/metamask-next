@@ -53,7 +53,7 @@ function a11yProps(index: number) {
 
 export default function Display() {
 
-    const { wallet } = useMetaMask()
+    const { wallet, hasProvider } = useMetaMask()
 
     const [value, setValue] = useState(0);
 
@@ -76,7 +76,7 @@ export default function Display() {
                     // border: isSmallScreen ? undefined : '2px solid black',
                     borderRadius: isSmallScreen ? undefined : '8px',
                     justifyContent: isSmallScreen ? 'center' : undefined,
-                    background: '#FFFFFF',
+                    background: (hasProvider && wallet.accounts.length > 0) ?  '#FFFFFF' : 'rgb(38, 38, 38)',
                     boxShadow: '0px 0px 20px 0px rgb(177, 165, 201)'
                 }
             }>
