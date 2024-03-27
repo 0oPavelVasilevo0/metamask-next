@@ -5,7 +5,7 @@ import { amber, blue, blueGrey, brown, common, cyan, deepOrange, deepPurple, gre
 export const customTheme = createTheme({
     breakpoints: {
         values: {
-            xs: 0,
+            xs: 340,
             sm: 440,
             md: 700,
             lg: 1200,

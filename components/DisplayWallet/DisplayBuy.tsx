@@ -269,7 +269,7 @@ export default function DisplayBuy() {
                 </Button>
             </Box>
             <Box sx={{ mb: isSmallScreen ? 0 : 3, display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
-                <CiRepeat style={{ width: '44', height: 'auto' }} />
+                <CiRepeat style={{ width: isSmallScreen ? '34' : '44', height: 'auto', transform: isSmallScreen ? 'rotate(90deg)' : 'none', fill: 'grey' }} />
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ m: 2 }}>
