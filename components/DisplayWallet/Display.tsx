@@ -15,6 +15,7 @@ import { MetaMaskError } from '../Error/MetaMaskError';
 import { customTheme } from '../theme/theme';
 //https://nextjs.org/docs/messages/react-hydration-error#solution-2-disabling-ssr-on-specific-components
 import dynamic from 'next/dynamic'
+import DisplaySend from './DisplaySend';
 const WalletNav = dynamic(() => import('../WalletNavigation/WalletNavigation'), { ssr: false })
 
 interface TabPanelProps {
@@ -59,6 +60,7 @@ export default function Display() {
     const theme = useTheme();
     // const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const isSmallScreen = useMediaQuery(customTheme.breakpoints.down('sm'));
+    const isExtraSmallScreen = useMediaQuery(customTheme.breakpoints.down('xs'));
 
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -75,17 +77,18 @@ export default function Display() {
                     borderRadius: isSmallScreen ? undefined : '8px',
                     justifyContent: isSmallScreen ? 'center' : undefined,
                     background: '#FFFFFF',
-                    boxShadow: '0px 0px 50px 0px rgb(177, 165, 201)'
+                    boxShadow: '0px 0px 20px 0px rgb(177, 165, 201)'
                 }
             }>
                 {/* <WalletNavigation /> */}
                 <WalletNav />
                 {wallet.accounts.length > 0 &&
                     <>
-                        <Box sx={{ m: 2, borderBottom: 0, borderColor: 'divider' }}>
+                    <Box sx={{ m: isExtraSmallScreen ? 0.5 : 2, borderBottom: 0, borderColor: 'divider' }}>
                             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                <Tab label="Fast buy" {...a11yProps(0)} />
-                                <Tab label="Fast exchange" {...a11yProps(1)} />
+                            <Tab sx={{ p: isExtraSmallScreen ? 1 : 2 }} label="Fast buy" {...a11yProps(0)} />
+                            <Tab sx={{ p: isExtraSmallScreen ? 1 : 2 }} label="Fast exchange" {...a11yProps(1)} />
+                            <Tab sx={{ p: isExtraSmallScreen ? 1 : 2 }} label="Fast send" {...a11yProps(2)} />
                             </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
@@ -93,6 +96,9 @@ export default function Display() {
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={1}>
                             <DisplayExchange />
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={2}>
+                            <DisplaySend />
                         </CustomTabPanel>
                     </>
                 }
