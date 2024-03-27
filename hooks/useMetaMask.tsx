@@ -6,9 +6,7 @@ import { formatBalance } from '../utils'
 
 interface WalletState {
   accounts: any[]
-  // balance: string
   ethBalance: string
-  // chainId: string
   ethChainId: string
   bnbBalance: string
   bnbChainId: string
@@ -22,20 +20,9 @@ interface MetaMaskContextData {
   isConnecting: boolean
   connectMetaMask: () => void
   clearError: () => void
+  switchChain: (chainId: number) => Promise<void> // Добавлено
+  addChain: (chainId: number, chainName: string, rpcUrls: string[]) => Promise<void> // Добавлено
 }
-
-// interface Ethereum {
-//   on: (event: string, handler: (...args: any[]) => void) => void;
-//   request: (params: { method: string; params?: any[]; }) => Promise<any>;
-//   removeListener: (event: string, handler: (...args: any[]) => void) => void;
-//   // Добавить другие методы, если они используются в коде
-// }
-
-// declare global {
-//   interface Window {
-//     ethereum?: Ethereum;
-//   }
-// }
 
 declare global {
   interface Window {
@@ -131,7 +118,54 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
     }
     setIsConnecting(false)
   }
+//--------------------------------------------------------------------------------------------
+  const addChain = async (chainId: number, chainName: string, rpcUrls: string[]) => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId: `0x${chainId.toString(16)}`,
+            chainName: chainName,
+            rpcUrls: rpcUrls,
+          },
+        ],
+      });
+    } catch (error) {
+      console.error("Error adding chain:", error);
+    }
+  };
 
+  const switchChain = async (chainId: number) => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: `0x${chainId.toString(16)}` }],
+      });
+    } catch (error) {
+      console.error("Error switching chain:", error);
+    }
+  };
+
+  useEffect(() => {
+    const handleChainChanged = async (newChainId: string) => {
+      // Handle chain changed event
+      // You can update balances based on the new chainId or any other logic you need
+      updateWalletAndAccounts();
+
+      // Example: Automatically switch to testnet if the user switches to mainnet
+      if (newChainId === '1') { // Mainnet chainId
+        await switchChain(4); // Switch to testnet (rinkeby chainId is 4)
+      }
+    };
+
+    window.ethereum.on("chainChanged", handleChainChanged);
+
+    return () => {
+      window.ethereum.removeListener("chainChanged", handleChainChanged);
+    };
+  }, [updateWalletAndAccounts]);
+//---------------------------------------------------------------------------------------------------
   return (
     <MetaMaskContext.Provider
       value={{
@@ -142,6 +176,8 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
         isConnecting,
         connectMetaMask,
         clearError,
+        switchChain, // Добавлено
+        addChain // Добавлено
       }}
     >
       {children}
