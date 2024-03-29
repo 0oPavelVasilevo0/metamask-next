@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button, FormControl, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Button, FilledInput, FormControl, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { FaEthereum } from 'react-icons/fa';
 import { SiTether } from 'react-icons/si';
@@ -196,10 +196,10 @@ export default function DisplaySend() {
                             <InputLabel sx={{ fontSize: '10px' }} size='small' htmlFor="outlined-adornment-amount">
                                 gasPrice
                             </InputLabel>
-                            <OutlinedInput
-                                sx={{ fontSize: '14px',borderRadius:'4px 0 0 4px' }}
+                            <FilledInput
+                                sx={{ fontSize: '14px', borderRadius: '4px 0 0 4px', height: '4.5ch' }}
                                 size='small'
-                                label="gasPrice"
+                                // label="gasPrice"
                                 // value={gasLimit}
                                 // value={gasPrice}
                                 // onChange={(event) => setGasLimit(event.target.value)}
@@ -210,10 +210,10 @@ export default function DisplaySend() {
                             <InputLabel sx={{ fontSize: '10px' }} size='small' htmlFor="outlined-adornment-amount">
                                 Total Amount
                             </InputLabel>
-                            <OutlinedInput
-                                sx={{ fontSize: '14px', borderRadius: ' 0 4px 4px 0' }}
+                            <FilledInput
+                                sx={{ fontSize: '14px', border: '0 0 0 0', borderRadius: ' 0 4px 4px 0', height: '4.5ch' }}
                                 size='small'
-                                label="Total Amount"
+                                // label="Total Amount"
                                 // value={maxPriorityFeePerGas}
                                 // value={totalAmount}
                                 // onChange={(event) => setMaxPriorityFeePerGas(event.target.value)}

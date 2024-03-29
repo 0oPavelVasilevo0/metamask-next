@@ -30,6 +30,8 @@ export default function DisplayBuy() {
 
     //Metamask    
     const { wallet } = useMetaMask()
+    //data from coingecko.com
+    const { binancecoin, ethereum, tether } = useCryptoData();
 
     //select Coin
     const [selectedCoin, setSelectedCoin] = useState('')
@@ -79,9 +81,7 @@ export default function DisplayBuy() {
                 return 0; // Если выбранная валюта неизвестна, вернуть 0
         }
     };
-
-    //data from coingecko.com
-    const { binancecoin, ethereum, tether } = useCryptoData();
+    
 
     //rating crypto
     const [ratesCrypto, setRatesCrypto] = useState('')
