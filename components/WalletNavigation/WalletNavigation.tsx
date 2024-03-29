@@ -58,7 +58,7 @@ export default function WalletNavigation() {
             {/* Показываем кнопку для установки MetaMask, если провайдер не установлен */}
             {!hasProvider && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', transform: isSmallScreen ? 'translateY(43vh)' : 'none' }}>
-                    <Button size='large' variant='contained' sx={{ boxShadow: isSmallScreen ? '0px 0px 20px 0px rgb(177, 165, 201)' : 'none' }}>
+                    <Button size='large' variant='contained'>
                         <a style={{ color: 'springGreen', textShadow: 'aqua 1px 0 10px' }} href="https://metamask.io" target="_blank" rel="noreferrer">
                             Install MetaMask
                         </a>
