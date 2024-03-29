@@ -77,7 +77,7 @@ export default function Display() {
                     borderRadius: isSmallScreen ? undefined : '8px',
                     justifyContent: isSmallScreen ? 'center' : undefined,
                     background: (hasProvider && wallet.accounts.length > 0) ?  '#FFFFFF' : 'rgb(38, 38, 38)',
-                    boxShadow: '0px 0px 20px 0px rgb(177, 165, 201)'
+                    // boxShadow: '0px 0px 20px 0px rgb(177, 165, 201)'
                 }
             }>
                 {/* <WalletNavigation /> */}

@@ -18,9 +18,10 @@ html {
 }
 
 .text_link {
+    justify-content: center;
     text-decoration: none;
-    cursor: pointer;
-    color: #FFFFFF;
+        color: cornflowerblue;
+        height: 26px;
 }
 
 a {

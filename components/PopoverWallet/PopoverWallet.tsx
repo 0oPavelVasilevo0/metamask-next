@@ -5,8 +5,12 @@ import Popover from '@mui/material/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { useMetaMask } from '@/hooks/useMetaMask';
 import { formatAddress } from '@/utils';
-import { Box, FilledInput, OutlinedInput, Stack, TextField } from '@mui/material';
+import { Box, FilledInput, InputAdornment, OutlinedInput, Stack, TextField, Tooltip } from '@mui/material';
 import { useState } from 'react';
+import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
+import { PiCopyLight } from 'react-icons/pi';
+import { RxExternalLink } from 'react-icons/rx';
+import { IoCopyOutline } from 'react-icons/io5';
 
 export default function PopoverWallet() {
     const { wallet, switchChain, addChain } = useMetaMask()
@@ -22,6 +26,13 @@ export default function PopoverWallet() {
         await switchChain(11155111)
     }
 
+    const handleCopy = (text: string) => {
+        navigator.clipboard.writeText(text);
+    };
+
+    // const handleLinkClick = (url: string | URL | undefined) => {
+    //     window.open(url, '_blank');
+    // };
     // Переключение на Sepolia testnet
     // const switchToSepoliaTestnet = async () => {
     //     try {
@@ -72,12 +83,12 @@ export default function PopoverWallet() {
             {(popupState: any) => (
                 <Box>
                     <Button
-                        sx={{ flexDirection: 'row' }}
-                        variant={"contained"}
+                        sx={{ flexDirection: 'row', background: '#c8c8c841' }}
+                        endIcon={<MdArrowDropDown />}
                         {...bindTrigger(popupState)}>
                         Metamask
                         {isTestnet &&
-                            <Typography color={'springGreen'} fontSize={12} sx={{ textShadow: 'aqua 1px 0 10px'}} fontWeight={'bold'} pt={0.4} fontFamily={'fantasy'}  >
+                            <Typography color={'orangeRed'} fontSize={12} sx={{ textShadow: 'black 1px 0 10px' }} fontWeight={'bold'} pt={0.4} fontFamily={'fantasy'}  >
                                 Testnet
                             </Typography>
                         }Wallet
@@ -105,9 +116,36 @@ export default function PopoverWallet() {
                             size='small'
                             sx={{ fontSize: '12px', p: 0 }}
                             readOnly
-
-                            defaultValue={wallet.accounts[0]} />
-                        <Typography sx={{ p: 1 }}>
+                            defaultValue={wallet.accounts[0]}
+                            endAdornment={
+                                // <>
+                                //     <Tooltip title="Copy" placement="top-start">
+                                <InputAdornment sx={{ cursor: 'pointer' }} position='end'>
+                                    <IoCopyOutline
+                                        style={{ width: '23', height: 'auto', cursor: 'pointer', marginRight: '8' }}
+                                        onClick={() => handleCopy(wallet.accounts[0])}
+                                    />
+                                    {/* </InputAdornment>
+                                    </Tooltip>
+                                    <Tooltip title="Go to etherscan" arrow>
+                                        <InputAdornment position='end'> */}
+                                    <a
+                                        className="text_link"
+                                        href={`https://etherscan.io/address/${wallet}`}
+                                        target="_blank"
+                                        data-tooltip="Open in Block Explorer" rel="noreferrer">
+                                        <RxExternalLink
+                                            style={{ width: '26', height: 'auto', cursor: 'pointer', marginRight: '4' }}
+                                        // onClick={() => handleLinkClick(`https://etherscan.io/address/${wallet}`)}
+                                        >
+                                        </RxExternalLink>
+                                    </a>
+                                </InputAdornment>
+                                //     </Tooltip>
+                                // </>
+                            }
+                        />
+                        {/* <Typography sx={{ p: 1 }}>
                             <a
                                 // className="text_link"
                                 href={`https://etherscan.io/address/${wallet}`}
@@ -117,7 +155,7 @@ export default function PopoverWallet() {
                                 {formatAddress(wallet.accounts[0])}
                                 Go to etherscan
                             </a>
-                        </Typography>
+                        </Typography> */}
                         <Typography sx={{ p: 1 }}>ETH: {wallet.ethBalance}</Typography>
                         <Typography sx={{ p: 1 }}>BNB: {wallet.bnbBalance}</Typography>
                         {/* Кнопки для переключения между сетями */}
