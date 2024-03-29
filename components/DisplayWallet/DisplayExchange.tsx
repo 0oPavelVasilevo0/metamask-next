@@ -1,9 +1,8 @@
 'use client'
 import { Button, FormControl, InputAdornment, InputLabel, OutlinedInput, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMetaMask } from '@/hooks/useMetaMask';
-import { PiCurrencyBtcFill } from 'react-icons/pi';
 import { FaEthereum } from 'react-icons/fa';
 import { SiTether } from 'react-icons/si';
 import { CiRepeat } from 'react-icons/ci';
@@ -16,27 +15,99 @@ export default function DisplayExchange() {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
     const { wallet } = useMetaMask()
+    //data crypto
+    const { binancecoin, bitcoin, ethereum, tether } = useCryptoData();
 
     const [selectedCoin, setSelectedCoin] = useState('');
     const handleCoinClick = (coin: React.SetStateAction<string>) => {
         setSelectedCoin(coin);
         setSelectedExchangeCoin('')
+        setInputValue('')
+        setOutputValue('')
     };
     const [selectedExchangeCoin, setSelectedExchangeCoin] = useState('');
     const handleExchangeCoinClick = (coinExchange: React.SetStateAction<string>) => {
         setSelectedExchangeCoin(coinExchange);
     };
 
-    // const [inputClicked, setInputClicked] = useState(false)
-
-    //data crypto
-    const { binancecoin, bitcoin, ethereum, tether } = useCryptoData();
+    const [inputValue, setInputValue] = useState('');
+    const [outputValue, setOutputValue] = useState('');
 
     //rating crypto
     const [ratesCrypto, setRatesCrypto] = useState('')
-    const handleRatesClick = (rates: React.SetStateAction<string>) => {
+
+    const handleRatesClick = (rates: string) => {
         setRatesCrypto(rates)
+        setOutputValue('')
     }
+
+    useEffect(() => {
+        handleInjectChange({ target: { value: inputValue } } as React.ChangeEvent<HTMLInputElement>); //Вызываем функцию handleInjectChange при изменении selectedExchangeCoin
+    }, [selectedExchangeCoin]);
+
+    const handleInjectChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const inputAmount = parseFloat(event.target.value);
+        if (!isNaN(inputAmount)) {
+            setInputValue(event.target.value);
+            let inject = 1;
+            switch (selectedCoin) {
+                case ('BNB'):
+                    switch (selectedExchangeCoin) {
+                        case 'ETH':
+                            if (binancecoin && ethereum && binancecoin.usd && ethereum.usd)
+                                inject = binancecoin?.usd / ethereum?.usd;
+                            break;
+                        case 'USDT':
+                            if (binancecoin && tether && binancecoin.usd && tether.usd)
+                                inject = binancecoin?.usd / tether?.usd;
+                            break;
+                        default:
+                            inject = 1; // Если выбранная валюта неизвестна, используем курс 1:1
+                            break;
+                    }
+                    break;
+                case 'ETH':
+                    switch (selectedExchangeCoin) {
+                        case 'BNB':
+                            if (binancecoin && ethereum && binancecoin.usd && ethereum.usd)
+                                inject = ethereum?.usd / binancecoin?.usd;
+                            break;
+                        case 'USDT':
+                            if (ethereum && tether && ethereum.usd && tether.usd)
+                                inject = ethereum?.usd / tether?.usd;
+                            break;
+                        default:
+                            inject = 1; // Если выбранная валюта неизвестна, используем курс 1:1
+                            break;
+                    }
+                    break;
+                case 'USDT':
+                    switch (selectedExchangeCoin) {
+                        case 'BNB':
+                            if (binancecoin && tether && binancecoin.usd && tether.usd)
+                                inject = tether?.usd / binancecoin?.usd;
+                            break;
+                        case 'ETH':
+                            if (ethereum && tether && ethereum.usd && tether.usd)
+                                inject = tether?.usd / ethereum.usd;
+                            break;
+                        default:
+                            inject = 1; // Если выбранная валюта неизвестна, используем курс 1:1
+                            break;
+                    }
+                    break;
+                default:
+                    inject = 1; // Если выбранная монета неизвестна, используем курс 1:1
+            }
+            if (inject) {
+                setOutputValue((inputAmount * inject).toFixed(2));
+            }
+        } else {
+            setInputValue('');
+            setOutputValue('');
+        }
+    };
+
     return (
         <Box sx={{
             display: isSmallScreen ? 'flex' : 'grid',
@@ -53,7 +124,6 @@ export default function DisplayExchange() {
                             startIcon={<SiBinance fill='orange' />}
                             onClick={() => {
                                 handleCoinClick('BNB')
-                                // handleRatesClick(`1.00 ${selectedCoin} = ${ethereum?.usd} ${selectedExchangeCoin}`)
                             }}
                         >
                             BNB
@@ -63,7 +133,6 @@ export default function DisplayExchange() {
                             startIcon={<FaEthereum fill='DodgerBlue' />}
                             onClick={() => {
                                 handleCoinClick('ETH')
-                                // handleRatesClick(`1.00 ETH = ${ethereum?.usd} USD`)
                             }}
                         >
                             ETH
@@ -73,7 +142,6 @@ export default function DisplayExchange() {
                             startIcon={<SiTether fill='limeGreen' />}
                             onClick={() => {
                                 handleCoinClick('USDT')
-                                // handleRatesClick(`1.00 USDT = ${tether?.usd} USD`)
                             }}
                         >
                             USDT
@@ -87,7 +155,6 @@ export default function DisplayExchange() {
                                 selectedCoin === 'BNB' ? wallet.bnbBalance :
                                     selectedCoin === 'ETH' ? wallet.ethBalance :
                                         'chooce coin'
-                                //  wallet.accounts[0]
                             }
                         </InputLabel>
                         <OutlinedInput
@@ -100,10 +167,11 @@ export default function DisplayExchange() {
                                                 selectedCoin === 'USDT' ? 'lightGreen' : 'dark'}>
                                     {selectedCoin}
                                 </Typography>
-                                </InputAdornment>}
+                            </InputAdornment>}
                             label="balance: 00000"
                             disabled={selectedCoin ? false : true}  // Обновляем disabled в зависимости от выбранной монеты
-                        // onFocus={() => setInputClicked(true)} // Обработчик для нажатия на input
+                            value={inputValue}
+                            onChange={handleInjectChange}
                         />
                     </FormControl>
                 </Box>
@@ -125,7 +193,6 @@ export default function DisplayExchange() {
                 <Box sx={{ m: 2 }}>
                     <Stack direction="row" spacing={2}>
                         <Button fullWidth
-                            // color='info'
                             variant={selectedExchangeCoin === 'BNB' ? 'contained' : 'outlined'}
                             startIcon={<SiBinance fill='orange' />}
                             onClick={() => {
@@ -141,24 +208,22 @@ export default function DisplayExchange() {
                             BNB
                         </Button>
                         <Button fullWidth
-                            // color='info'
                             variant={selectedExchangeCoin === 'ETH' ? 'contained' : 'outlined'}
                             startIcon={<FaEthereum fill='DodgerBlue' />}
                             onClick={() => {
                                 handleExchangeCoinClick('ETH')
-                                //  handleRatesClick(`1.00 ${selectedCoin} = ${ethereum?.usd} ETH`)
                                 handleRatesClick(
                                     selectedCoin === 'BNB' && ethereum && ethereum.usd && binancecoin && binancecoin.usd ? `1.00 ${selectedCoin} = ${(binancecoin?.usd / ethereum?.usd).toFixed(2)} ETH` :
                                         selectedCoin === 'USDT' && tether && tether.usd && ethereum && ethereum.usd ? `1.00 ${selectedCoin} = ${(tether?.usd / ethereum?.usd).toFixed(5)} ETH` :
                                             ''
                                 )
+
                             }}
                             disabled={(selectedCoin === 'ETH' ? true : false) || (selectedCoin ? false : true)}
                         >
                             ETH
                         </Button>
                         <Button fullWidth
-                            // color='info'
                             variant={selectedExchangeCoin === 'USDT' ? 'contained' : 'outlined'}
                             startIcon={<SiTether fill='limeGreen' />}
                             onClick={() => {
@@ -181,7 +246,6 @@ export default function DisplayExchange() {
                             balance: {
                                 selectedExchangeCoin === 'BNB' ? wallet.bnbBalance :
                                     selectedExchangeCoin === 'ETH' ? wallet.ethBalance :
-                                        // wallet.bnbChainId
                                         'choose coin'
                             }
                         </InputLabel>
@@ -200,6 +264,7 @@ export default function DisplayExchange() {
                             }
                             label="balance: 0.000"
                             disabled={(selectedCoin ? false : true) || (selectedExchangeCoin ? false : true)}
+                            value={selectedExchangeCoin ? outputValue : ''}
                             readOnly
                         />
                     </FormControl>
