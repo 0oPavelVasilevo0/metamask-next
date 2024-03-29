@@ -37,6 +37,11 @@ export default function DisplaySend() {
         setSelectedCoin(coin);
     };
 
+    useEffect(() => {
+        // Обновляем selectedCoin при изменении сети
+        setSelectedCoin('');
+    }, [isTestnet]);
+
     // // Функция для расчета gasLimit
     // const calculateGasLimit = (transactionAmount: any) => {
     //     // Ваша логика расчета gasLimit на основе введенной суммы
@@ -126,7 +131,7 @@ export default function DisplaySend() {
                             BNB
                         </Button>
                         <Button fullWidth
-                            variant={selectedCoin === 'ETH' ? 'contained' : 'outlined'}
+                            variant={(!selectedCoin ? 'outlined' : 'contained')}
                             startIcon={<FaEthereum fill='DodgerBlue' />}
                             onClick={() => {
                                 handleCoinClick(isTestnet ? 'SepoliaETH' : 'ETH')

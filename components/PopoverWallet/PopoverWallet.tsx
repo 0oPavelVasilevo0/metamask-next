@@ -84,7 +84,7 @@ export default function PopoverWallet() {
                 <Box>
                     <Button
                         sx={{ flexDirection: 'row', background: '#c8c8c841' }}
-                        endIcon={<MdArrowDropDown />}
+                        endIcon={<MdArrowDropDown style={{width: '24', height: 'auto', alignItems: 'center'}} />}
                         {...bindTrigger(popupState)}>
                         Metamask
                         {isTestnet &&
