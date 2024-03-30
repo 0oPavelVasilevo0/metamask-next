@@ -5,7 +5,7 @@ import { useMetaMask } from '../../hooks/useMetaMask'
 
 export const MetaMaskError = () => {
 
-    const { error, errorMessage, clearError } = useMetaMask()
+    const { error, errorMessage, hasProvider, wallet, clearError } = useMetaMask()
 
     return (
 
@@ -16,12 +16,14 @@ export const MetaMaskError = () => {
             {error &&
                 (
                     <Box sx={{
+                        m: 2,
+                        mt: 0,
                         p: 2,
-                        borderRadius: '0 0 6px 6px',
-                        background: 'red'
+                        borderRadius: 1,
+                        background: (hasProvider && wallet.accounts.length > 0) ? 'red' : 'none',
                     }}
                         onClick={clearError}>
-                        <Typography color={'white'} fontSize={16}>
+                        <Typography color={(hasProvider && wallet.accounts.length > 0) ? 'white' : 'red'} textAlign={'center'} fontSize={16}>
                             <strong>Error:</strong> User rejected the request{errorMessage}
                         </Typography>
                     </Box>

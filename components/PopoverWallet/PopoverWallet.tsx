@@ -26,8 +26,13 @@ export default function PopoverWallet() {
         await switchChain(11155111)
     }
 
+    const [copied, setCopied] = useState(false);
     const handleCopy = (text: string) => {
         navigator.clipboard.writeText(text);
+        setCopied(true); // Устанавливаем состояние "copied" в true при нажатии на элемент
+        setTimeout(() => {
+            setCopied(false); // Сбрасываем состояние "copied" обратно в false через 1 секунду
+        }, 1000)
     };
 
     // const handleLinkClick = (url: string | URL | undefined) => {
@@ -109,26 +114,15 @@ export default function PopoverWallet() {
                             horizontal: 'center',
                         }}
                     >
-                        {/* <Typography sx={{ p: 1 }}>{wallet.accounts[0]}</Typography> */}
-
-                        <FilledInput
+                        {/* <FilledInput
                             fullWidth
                             size='small'
-                            sx={{ fontSize: '12px', p: 0 }}
+                            sx={{ fontSize: '12px', p: 0, }}
                             readOnly
-                            defaultValue={wallet.accounts[0]}
+                            defaultValue={formatAddress(wallet.accounts[0])}
+                            onClick={() => handleCopy(wallet.accounts[0])}
                             endAdornment={
-                                // <>
-                                //     <Tooltip title="Copy" placement="top-start">
                                 <InputAdornment sx={{ cursor: 'pointer' }} position='end'>
-                                    <IoCopyOutline
-                                        style={{ width: '23', height: 'auto', cursor: 'pointer', marginRight: '8' }}
-                                        onClick={() => handleCopy(wallet.accounts[0])}
-                                    />
-                                    {/* </InputAdornment>
-                                    </Tooltip>
-                                    <Tooltip title="Go to etherscan" arrow>
-                                        <InputAdornment position='end'> */}
                                     <a
                                         className="text_link"
                                         href={`https://etherscan.io/address/${wallet}`}
@@ -136,15 +130,13 @@ export default function PopoverWallet() {
                                         data-tooltip="Open in Block Explorer" rel="noreferrer">
                                         <RxExternalLink
                                             style={{ width: '26', height: 'auto', cursor: 'pointer', marginRight: '4' }}
-                                        // onClick={() => handleLinkClick(`https://etherscan.io/address/${wallet}`)}
                                         >
                                         </RxExternalLink>
                                     </a>
                                 </InputAdornment>
-                                //     </Tooltip>
-                                // </>
+                              
                             }
-                        />
+                        /> */}
                         {/* <Typography sx={{ p: 1 }}>
                             <a
                                 // className="text_link"
@@ -156,6 +148,23 @@ export default function PopoverWallet() {
                                 Go to etherscan
                             </a>
                         </Typography> */}
+                        <Typography sx={{ p: 1, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottom: '1px solid black' }}>
+                            <Tooltip title='copy' arrow sx={{cursor: 'pointer'}}>
+                                <Typography color={copied ? 'limeGreen' : 'none'}  mr={'auto'} ml={'auto'} onClick={() => handleCopy(wallet.accounts[0])}>
+                                    {formatAddress(wallet.accounts[0])}
+                                    <IoCopyOutline style={{ width: '18', height: 'auto'}}/>
+                                </Typography>
+                            </Tooltip>
+                            <Tooltip title='go to ethercsan' arrow >
+                                <a
+                                    className="text_link"
+                                    href={`https://etherscan.io/address/${wallet.accounts[0]}`}
+                                    target="_blank"
+                                    data-tooltip="Open in Block Explorer" rel="noreferrer">
+                                  <RxExternalLink style={{width: '20', height: 'auto', cursor: 'pointer' }} />
+                                  </a>
+                            </Tooltip>
+                            </Typography>
                         <Typography sx={{ p: 1 }}>ETH: {wallet.ethBalance}</Typography>
                         <Typography sx={{ p: 1 }}>BNB: {wallet.bnbBalance}</Typography>
                         {/* Кнопки для переключения между сетями */}

@@ -86,9 +86,9 @@ export default function Display() {
                     <>
                     <Box sx={{ m: isExtraSmallScreen ? 0.5 : 2, borderBottom: 0, borderColor: 'divider' }}>
                             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab sx={{ p: isExtraSmallScreen ? 1 : 2 }} label="Fast buy" {...a11yProps(0)} />
-                            <Tab sx={{ p: isExtraSmallScreen ? 1 : 2 }} label="Fast exchange" {...a11yProps(1)} />
-                            <Tab sx={{ p: isExtraSmallScreen ? 1 : 2 }} label="Fast send" {...a11yProps(2)} />
+                            <Tab sx={{ p: isSmallScreen ? 1 : 2, m: isSmallScreen ? 'auto' : '0' }} label="Fast buy" {...a11yProps(0)} />
+                            <Tab sx={{ p: isSmallScreen ? 1 : 2, m: isSmallScreen ? 'auto' : '0' }} label="Fast exchange" {...a11yProps(1)} />
+                            <Tab sx={{ p: isSmallScreen ? 1 : 2, m: isSmallScreen ? 'auto' : '0' }} label="Fast send" {...a11yProps(2)} />
                             </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
