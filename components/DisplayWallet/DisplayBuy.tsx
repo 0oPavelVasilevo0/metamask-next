@@ -33,6 +33,8 @@ export default function DisplayBuy() {
     //data from coingecko.com
     const { binancecoin, ethereum, tether } = useCryptoData();
 
+    const isTestnet = wallet.ethChainId === '0xaa36a7'
+
     //select Coin
     const [selectedCoin, setSelectedCoin] = useState('')
     const handleCoinClick = (coin: React.SetStateAction<string>) => {
@@ -81,7 +83,7 @@ export default function DisplayBuy() {
                 return 0; // Если выбранная валюта неизвестна, вернуть 0
         }
     };
-    
+
 
     //rating crypto
     const [ratesCrypto, setRatesCrypto] = useState('')
@@ -170,6 +172,13 @@ export default function DisplayBuy() {
         }
     };
 
+    const redirectToBuyPage = (wallet: { accounts: string[] }) => {
+        if (wallet.accounts.length > 0) {
+            const accountId = wallet.accounts[0];
+            window.location.href = `https://portfolio.metamask.io/buy?metamaskEntry=ext_buy_sell_button&metametricsId=${accountId}`;
+        }
+    };
+
     return (
         <Box sx={
             {
@@ -189,6 +198,7 @@ export default function DisplayBuy() {
                             // color='info'
                             variant={selectedCoin === 'BNB' ? 'contained' : 'outlined'}
                             startIcon={<SiBinance fill='orange' />}
+                            disabled={isTestnet ? true : false}
                             onClick={() => {
                                 handleCoinClick('BNB')
                                 // handleRatesClick(`1.00 BNB = ${binancecoin?.usd} USD`)
@@ -202,6 +212,7 @@ export default function DisplayBuy() {
                             // color='info'
                             variant={selectedCoin === 'ETH' ? 'contained' : 'outlined'}
                             startIcon={<FaEthereum fill='DodgerBlue' />}
+                            disabled={isTestnet ? true : false}
                             onClick={() => {
                                 handleCoinClick('ETH')
                                 // handleRatesClick(`1.00 ETH = ${ethereum?.usd} USD`)
@@ -220,6 +231,7 @@ export default function DisplayBuy() {
                             // color='info'
                             variant={selectedCoin === 'USDT' ? 'contained' : 'outlined'}
                             startIcon={<SiTether fill='limeGreen' />}
+                            disabled={isTestnet ? true : false}
                             onClick={() => {
                                 handleCoinClick('USDT')
                                 // handleRatesClick(`1.00 USDT = ${tether?.usd} USD`)
@@ -261,12 +273,20 @@ export default function DisplayBuy() {
                     <Typography fontSize={10} color='secondary'>{selectedCoin ? ratesCrypto : ''}</Typography>
                     <Typography fontSize={10} >source: <a href='https://www.coingecko.com/ru'>coingecko</a></Typography>
                 </Box>
-                <Button sx={{ m: 2, width: '100px' }} color='warning'
-                    variant="contained"
-                    disabled={selectedCoin ? false : true}
-                >
-                    Buy
-                </Button>
+                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                    <Button sx={{ m: 2, width: '100px' }} color='warning'
+                        variant="contained"
+                        disabled={!inputValue}
+                        onClick={() => { redirectToBuyPage(wallet) }}
+                    >
+                        Buy
+                    </Button>
+                    {isTestnet && (
+                        <Typography textAlign={'center'} sx={{ mt: 'auto', mb: 'auto' }} color={'error'} fontSize={12}>
+                            not available on testnet
+                        </Typography>
+                    )}
+                </Box>
             </Box>
             <Box sx={{ mb: isSmallScreen ? 0 : 3, display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
                 <CiRepeat style={{ width: isSmallScreen ? '34' : '44', height: 'auto', transform: isSmallScreen ? 'rotate(90deg)' : 'none', fill: 'grey' }} />
@@ -279,6 +299,7 @@ export default function DisplayBuy() {
                             variant={selectedCash === 'USD' ? 'contained' : 'outlined'}
                             // disabled={selectedCoin ? false : true}
                             startIcon={<HiMiniCurrencyDollar />}
+                            disabled={isTestnet ? true : false}
                             onClick={() => handleCashClick('USD')}>
                             USD
                         </Button>
@@ -287,6 +308,7 @@ export default function DisplayBuy() {
                             variant={selectedCash === 'EUR' ? 'contained' : 'outlined'}
                             // disabled={selectedCoin ? false : true}
                             startIcon={<HiMiniCurrencyEuro />}
+                            disabled={isTestnet ? true : false}
                             onClick={() => { handleCashClick('EUR') }}>
                             EUR
                         </Button>
@@ -295,6 +317,7 @@ export default function DisplayBuy() {
                             variant={selectedCash === 'RUB' ? 'contained' : 'outlined'}
                             // disabled={selectedCoin ? false : true}
                             startIcon={<PiCurrencyRubFill />}
+                            disabled={isTestnet ? true : false}
                             onClick={() => handleCashClick('RUB')}>
                             RUB
                         </Button>

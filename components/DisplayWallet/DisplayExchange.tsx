@@ -18,6 +18,8 @@ export default function DisplayExchange() {
     //data crypto
     const { binancecoin, bitcoin, ethereum, tether } = useCryptoData();
 
+    const isTestnet = wallet.ethChainId === '0xaa36a7'
+
     const [selectedCoin, setSelectedCoin] = useState('');
     const handleCoinClick = (coin: React.SetStateAction<string>) => {
         setSelectedCoin(coin);
@@ -108,6 +110,13 @@ export default function DisplayExchange() {
         }
     };
 
+    const redirectToSwapPage = (wallet: { accounts: string[] }) => {
+        if (wallet.accounts.length > 0) {
+            // const accountId = wallet.accounts[0];
+            window.location.href = `https://portfolio.metamask.io/swap`;
+        }
+    };
+
     return (
         <Box sx={{
             display: isSmallScreen ? 'flex' : 'grid',
@@ -122,6 +131,7 @@ export default function DisplayExchange() {
                         <Button fullWidth
                             variant={selectedCoin === 'BNB' ? 'contained' : 'outlined'}
                             startIcon={<SiBinance fill='orange' />}
+                            disabled={isTestnet ? true : false}
                             onClick={() => {
                                 handleCoinClick('BNB')
                             }}
@@ -131,6 +141,7 @@ export default function DisplayExchange() {
                         <Button fullWidth
                             variant={selectedCoin === 'ETH' ? 'contained' : 'outlined'}
                             startIcon={<FaEthereum fill='DodgerBlue' />}
+                            disabled={isTestnet ? true : false}
                             onClick={() => {
                                 handleCoinClick('ETH')
                             }}
@@ -140,6 +151,7 @@ export default function DisplayExchange() {
                         <Button fullWidth
                             variant={selectedCoin === 'USDT' ? 'contained' : 'outlined'}
                             startIcon={<SiTether fill='limeGreen' />}
+                            disabled={isTestnet ? true : false}
                             onClick={() => {
                                 handleCoinClick('USDT')
                             }}
@@ -172,6 +184,7 @@ export default function DisplayExchange() {
                             disabled={selectedCoin ? false : true}  // Обновляем disabled в зависимости от выбранной монеты
                             value={inputValue}
                             onChange={handleInjectChange}
+                            color='warning'
                         />
                     </FormControl>
                 </Box>
@@ -179,12 +192,20 @@ export default function DisplayExchange() {
                     <Typography fontSize={10} color='secondary'>{selectedExchangeCoin ? ratesCrypto : ''}</Typography>
                     <Typography fontSize={10} >source: <a href='https://www.coingecko.com/ru'>coingecko</a></Typography>
                 </Box>
-                <Button sx={{ m: 2, width: '100px' }} color='warning'
-                    variant='contained'
-                    disabled={selectedCoin ? false : true}
-                >
-                    Exchange
-                </Button>
+                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                    <Button sx={{ m: 2, width: '100px' }} color='warning'
+                        variant='contained'
+                        disabled={!inputValue || !selectedExchangeCoin}
+                        onClick={() => { redirectToSwapPage(wallet) }}
+                    >
+                        Exchange
+                    </Button>
+                {isTestnet && (
+                    <Typography textAlign={'center'} sx={{ mt: 'auto', mb: 'auto' }} color={'error'} fontSize={12}>
+                        not available on testnet
+                    </Typography>
+                )}
+                </Box>
             </Box>
             <Box sx={{ mb: isSmallScreen ? 0 : 3, display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
                 <CiRepeat style={{ width: isSmallScreen ? '34' : '44', height: 'auto', transform: isSmallScreen ? 'rotate(90deg)' : 'none', fill: 'grey' }} />
@@ -243,11 +264,12 @@ export default function DisplayExchange() {
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <FormControl fullWidth sx={{ m: 2, mt: 0, }}>
                         <InputLabel htmlFor="outlined-adornment-amount">
-                            balance: {
+                            {/* balance: {
                                 selectedExchangeCoin === 'BNB' ? wallet.bnbBalance :
                                     selectedExchangeCoin === 'ETH' ? wallet.ethBalance :
                                         'choose coin'
-                            }
+                            } */}
+                            choose coin
                         </InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-amount"
@@ -262,7 +284,7 @@ export default function DisplayExchange() {
                                     </Typography>
                                 </InputAdornment>
                             }
-                            label="balance: 0.000"
+                            // label="balance: 0.000"
                             disabled={(selectedCoin ? false : true) || (selectedExchangeCoin ? false : true)}
                             value={selectedExchangeCoin ? outputValue : ''}
                             readOnly

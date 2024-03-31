@@ -176,6 +176,7 @@ export default function DisplaySend() {
                             </InputAdornment>}
                             label="balance: 00000"
                             disabled={selectedCoin ? false : true}  // Обновляем disabled в зависимости от выбранной монеты
+                            color='warning'
                         />
                     </FormControl>
                 </Box>
