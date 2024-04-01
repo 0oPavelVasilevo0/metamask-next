@@ -269,7 +269,7 @@ export default function DisplayExchange() {
                                     selectedExchangeCoin === 'ETH' ? wallet.ethBalance :
                                         'choose coin'
                             } */}
-                            choose coin
+                            {selectedExchangeCoin ? '': 'choose coin' }
                         </InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-amount"
