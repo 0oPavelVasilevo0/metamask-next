@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button, FilledInput, FormControl, InputAdornment, InputLabel, OutlinedInput, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Button, FilledInput, FormControl, InputAdornment, InputLabel, Link, OutlinedInput, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { FaEthereum } from 'react-icons/fa';
 import { SiTether } from 'react-icons/si';
@@ -182,7 +182,17 @@ export default function DisplaySend() {
                 </Box>
                 <Box sx={{ mt: 1, ml: 2, mr: 2, display: 'flex', justifyContent: 'space-between' }}>
                     <Typography fontSize={10} color='secondary'>{selectedCoin ? `1.00 ETH = ${ethereum?.usd} USD` : ''}</Typography>
-                    <Typography fontSize={10} >source: <a href='https://www.coingecko.com/ru'>coingecko</a></Typography>
+                    <Typography fontSize={10} >
+                        source: <Link
+                            underline="none"
+                            color='cornflowerblue'
+                            href='https://www.coingecko.com/ru'
+                            target="_blank"
+                            data-tooltip="Open in Block Explorer"
+                            rel="noreferrer">
+                            coingecko
+                        </Link>
+                    </Typography>
                 </Box>
                 <Button sx={{ m: 2, width: '100px' }} color='warning'
                     variant='contained'
