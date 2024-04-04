@@ -16,9 +16,9 @@ export const ThemeContextProvider: React.FunctionComponent<
 
     //save in localstorage
     useEffect(() => {
-         const themeModeFromPref = _getThemeMode();
-    setThemeMode(themeModeFromPref)
-})
+        const themeModeFromPref = _getThemeMode();
+        setThemeMode(themeModeFromPref)
+    })
 
     useEffect(() => {
         switch (themeMode) {
@@ -44,7 +44,7 @@ export const ThemeContextProvider: React.FunctionComponent<
         }
     }, [themeMode, SYSTEM_THEME]);
 
-//save in localstorage
+    //save in localstorage
     const _getThemeMode = (): IThemeMode => {
         const themeModeFromPref = localStorage.getItem("themeMode") as IThemeMode;
         if (themeModeFromPref) {
@@ -52,7 +52,7 @@ export const ThemeContextProvider: React.FunctionComponent<
         }
         return IThemeMode.LIGHT
     }
-//save in localstorage
+    //save in localstorage
     const _switchThemeMode = (mode: IThemeMode) => {
         localStorage.setItem("themeMode", mode);
     }
