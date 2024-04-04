@@ -1,5 +1,5 @@
 'use client'
-import { Button, FormControl, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Typography, styled, useMediaQuery, useTheme } from '@mui/material';
+import { Button, FormControl, InputAdornment, InputLabel, Link, OutlinedInput, Stack, TextField, Typography, styled, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react'
 import { PiCurrencyRubFill } from 'react-icons/pi';
@@ -254,7 +254,17 @@ export default function DisplayBuy() {
                 </Box>
                 <Box sx={{ mt: 1, ml: 2, mr: 2, display: 'flex', justifyContent: 'space-between' }}>
                     <Typography fontSize={10} color='secondary'>{selectedCoin ? ratesCrypto : ''}</Typography>
-                    <Typography fontSize={10} >source: <a href='https://www.coingecko.com/ru'>coingecko</a></Typography>
+                    <Typography fontSize={10} >
+                        source: <Link
+                            underline="none"
+                            color='cornflowerblue'
+                            href='https://www.coingecko.com/ru'
+                            target="_blank"
+                            data-tooltip="Open in Block Explorer"
+                            rel="noreferrer">
+                            coingecko
+                        </Link>
+                    </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Button sx={{ m: 2, width: '100px' }} color='warning'
