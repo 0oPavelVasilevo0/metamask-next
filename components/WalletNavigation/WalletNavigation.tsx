@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button, Tooltip, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Button, Link, Tooltip, useMediaQuery, useTheme } from '@mui/material'
 // import React from 'react'
 import PopoverWallet from '../PopoverWallet/PopoverWallet'
 import { useMetaMask } from '@/hooks/useMetaMask'
@@ -60,10 +60,14 @@ export default function WalletNavigation() {
             {/* Показываем кнопку для установки MetaMask, если провайдер не установлен */}
             {!hasProvider && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', transform: isSmallScreen ? 'translateY(43vh)' : 'none' }}>
-                    <Button size='large' variant='contained'>
-                        <a style={{ color: 'springGreen', textShadow: 'aqua 1px 0 10px' }} href="https://metamask.io" target="_blank" rel="noreferrer">
+                    <Button color='warning' variant='contained' size='large'>
+                        <Link
+                            underline="none"
+                            href="https://metamask.io"
+                            target="_blank"
+                            rel="noreferrer">
                             Install MetaMask
-                        </a>
+                        </Link>
                     </Button>
                 </Box>
             )}
@@ -71,7 +75,7 @@ export default function WalletNavigation() {
             {/* Показываем кнопку для подключения к MetaMask, если провайдер установлен */}
             {window.ethereum?.isMetaMask && wallet.accounts.length < 1 && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', transform: isSmallScreen ? 'translateY(43vh)' : 'none' }}>
-                    <Button size='large' variant='contained' sx={{ color: 'springGreen', textShadow: 'aqua 1px 0 10px' }} disabled={isConnecting} onClick={connectMetaMask}>
+                    <Button size='large' color='warning' variant='contained' disabled={isConnecting} onClick={connectMetaMask}>
                         Connect MetaMask
                     </Button>
                 </Box>
@@ -84,7 +88,7 @@ export default function WalletNavigation() {
                         <PopoverWallet />
                     </Box>
                     <Box >
-                            <ToggleColorModeButton />
+                        <ToggleColorModeButton />
                     </Box>
                 </Box>
             )}

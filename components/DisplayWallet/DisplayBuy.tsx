@@ -2,15 +2,13 @@
 import { Button, FormControl, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Typography, styled, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react'
-import { PiCurrencyBtcFill, PiCurrencyRubFill } from 'react-icons/pi';
+import { PiCurrencyRubFill } from 'react-icons/pi';
 import { FaEthereum } from 'react-icons/fa';
 import { SiBinance, SiTether } from 'react-icons/si';
 import { useMetaMask } from '@/hooks/useMetaMask';
 import { CiRepeat } from 'react-icons/ci';
 import useCryptoData from '@/hooks/useCryptoData';
 import { HiMiniCurrencyDollar, HiMiniCurrencyEuro } from 'react-icons/hi2';
-import { usePathname } from 'next/navigation';
-import path from 'path';
 
 const NoBorderTextField = styled(TextField)({
     '& .MuiOutlinedInput-root': {
@@ -24,9 +22,6 @@ export default function DisplayBuy() {
     //media query
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
-    //active button
-    // const [isBtnActive, setIsBtnActive] = useState(false);
-    // const [isBtnFocused, setIsBtnFocused] = useState(false);
 
     //Metamask    
     const { wallet } = useMetaMask()
@@ -183,8 +178,6 @@ export default function DisplayBuy() {
         <Box sx={
             {
                 display: isSmallScreen ? 'flex' : 'grid',
-                // height: isSmallScreen ? '100vh' : undefined,
-                // width: isSmallScreen ? '100vw' : undefined,
                 flexDirection: isSmallScreen ? 'column' : undefined,
                 gridTemplateColumns: isSmallScreen ? undefined : '34ch 5ch 34ch',
                 justifyContent: isSmallScreen ? 'flex-start' : 'space-between',
@@ -193,48 +186,37 @@ export default function DisplayBuy() {
         >
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ m: 2 }}>
-                    <Stack direction="row" spacing={2}>
+                    <Stack direction="row" spacing={2} justifyContent={'space-between'}>
                         <Button fullWidth
-                            // color='info'
-                            variant={selectedCoin === 'BNB' ? 'contained' : 'outlined'}
+                            variant={selectedCoin === 'BNB' ? 'outlined' : 'text'}
+                            disableElevation
                             startIcon={<SiBinance fill='orange' />}
                             disabled={isTestnet ? true : false}
                             onClick={() => {
                                 handleCoinClick('BNB')
-                                // handleRatesClick(`1.00 BNB = ${binancecoin?.usd} USD`)
                                 handleRatesClick(`1.00 BNB = ${ratesInSelectedCash('BNB')} ${selectedCash}`)
-                                // setIsBtnActive(true);
                             }} >
                             BNB
                         </Button>
                         <Button fullWidth
-                            // sx={{ color: 'blue', background: 'lime' }}
-                            // color='info'
-                            variant={selectedCoin === 'ETH' ? 'contained' : 'outlined'}
+                            variant={selectedCoin === 'ETH' ? 'outlined' : 'text'}
+                            disableElevation
                             startIcon={<FaEthereum fill='DodgerBlue' />}
                             disabled={isTestnet ? true : false}
                             onClick={() => {
                                 handleCoinClick('ETH')
-                                // handleRatesClick(`1.00 ETH = ${ethereum?.usd} USD`)
                                 handleRatesClick(`1.00 ETH = ${ratesInSelectedCash('ETH')} ${selectedCash}`)
-                                // setIsBtnFocused(true);
                             }}
-                        // onFocus={() => {
-                        //     if (selectedCoin === 'ETH') {
-                        //         setIsBtnFocused(false);
-                        //     }
-                        // }}
                         >
                             ETH
                         </Button>
                         <Button fullWidth
-                            // color='info'
-                            variant={selectedCoin === 'USDT' ? 'contained' : 'outlined'}
+                            variant={selectedCoin === 'USDT' ? 'outlined' : 'text'}
+                            disableElevation
                             startIcon={<SiTether fill='limeGreen' />}
                             disabled={isTestnet ? true : false}
                             onClick={() => {
                                 handleCoinClick('USDT')
-                                // handleRatesClick(`1.00 USDT = ${tether?.usd} USD`)
                                 handleRatesClick(`1.00 USDT = ${ratesInSelectedCash('USDT')} ${selectedCash}`)
                             }} >
                             USDT
@@ -266,6 +248,7 @@ export default function DisplayBuy() {
                             value={inputValue}
                             onChange={handleInputChange}
                             color='warning'
+                            autoComplete='off'
                         />
                     </FormControl>
                 </Box>
@@ -296,7 +279,7 @@ export default function DisplayBuy() {
                     <Stack direction="row" spacing={2}>
                         <Button fullWidth
                             color='success'
-                            variant={selectedCash === 'USD' ? 'contained' : 'outlined'}
+                            variant={selectedCash === 'USD' ? 'outlined' : 'text'}
                             // disabled={selectedCoin ? false : true}
                             startIcon={<HiMiniCurrencyDollar />}
                             disabled={isTestnet ? true : false}
@@ -305,7 +288,7 @@ export default function DisplayBuy() {
                         </Button>
                         <Button fullWidth
                             color='success'
-                            variant={selectedCash === 'EUR' ? 'contained' : 'outlined'}
+                            variant={selectedCash === 'EUR' ? 'outlined' : 'text'}
                             // disabled={selectedCoin ? false : true}
                             startIcon={<HiMiniCurrencyEuro />}
                             disabled={isTestnet ? true : false}
@@ -314,7 +297,7 @@ export default function DisplayBuy() {
                         </Button>
                         <Button fullWidth
                             color='success'
-                            variant={selectedCash === 'RUB' ? 'contained' : 'outlined'}
+                            variant={selectedCash === 'RUB' ? 'outlined' : 'text'}
                             // disabled={selectedCoin ? false : true}
                             startIcon={<PiCurrencyRubFill />}
                             disabled={isTestnet ? true : false}

@@ -5,10 +5,9 @@ import Popover from '@mui/material/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { useMetaMask } from '@/hooks/useMetaMask';
 import { formatAddress } from '@/utils';
-import { Box, FilledInput, InputAdornment, OutlinedInput, Stack, TextField, Tooltip } from '@mui/material';
+import { Box, Link, Stack, Tooltip } from '@mui/material';
 import { useState } from 'react';
-import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
-import { PiCopyLight } from 'react-icons/pi';
+import { MdArrowDropDown } from 'react-icons/md';
 import { RxExternalLink } from 'react-icons/rx';
 import { IoCopyOutline } from 'react-icons/io5';
 
@@ -88,8 +87,8 @@ export default function PopoverWallet() {
             {(popupState: any) => (
                 <Box>
                     <Button
-                        sx={{ flexDirection: 'row', background: '#c8c8c841' }}
-                        endIcon={<MdArrowDropDown style={{width: '24', height: 'auto', alignItems: 'center'}} />}
+                        sx={{ flexDirection: 'row' }}
+                        endIcon={<MdArrowDropDown style={{ width: '24', height: 'auto', alignItems: 'center' }} />}
                         {...bindTrigger(popupState)}>
                         Metamask
                         {isTestnet &&
@@ -148,23 +147,25 @@ export default function PopoverWallet() {
                                 Go to etherscan
                             </a>
                         </Typography> */}
-                        <Typography sx={{ p: 1, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottom: '1px solid black' }}>
-                            <Tooltip title='copy' arrow sx={{cursor: 'pointer'}}>
-                                <Typography color={copied ? 'limeGreen' : 'none'}  mr={'auto'} ml={'auto'} onClick={() => handleCopy(wallet.accounts[0])}>
+                        <Typography sx={{ p: 1, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottom: '1px solid black', alignItems: 'center' }}>
+                            <Tooltip title='copy' arrow sx={{ cursor: 'pointer' }}>
+                                <Typography color={copied ? 'limeGreen' : 'none'} mr={'auto'} ml={'auto'} onClick={() => handleCopy(wallet.accounts[0])}>
                                     {formatAddress(wallet.accounts[0])}
-                                    <IoCopyOutline style={{ width: '18', height: 'auto'}}/>
+                                    <IoCopyOutline style={{ width: '16', height: 'auto', verticalAlign: 'middle' }} />
                                 </Typography>
                             </Tooltip>
                             <Tooltip title='go to ethercsan' arrow >
-                                <a
-                                    className="text_link"
+                                <Link
+                                    // color='info'
+                                    underline="none"
                                     href={`https://etherscan.io/address/${wallet.accounts[0]}`}
                                     target="_blank"
-                                    data-tooltip="Open in Block Explorer" rel="noreferrer">
-                                  <RxExternalLink style={{width: '20', height: 'auto', cursor: 'pointer' }} />
-                                  </a>
+                                    data-tooltip="Open in Block Explorer"
+                                    rel="noreferrer">
+                                    <RxExternalLink style={{ width: '18', height: 'auto', cursor: 'pointer', verticalAlign: 'middle', color: 'cornflowerblue' }} />
+                                </Link>
                             </Tooltip>
-                            </Typography>
+                        </Typography>
                         <Typography sx={{ p: 1 }}>ETH: {wallet.ethBalance}</Typography>
                         <Typography sx={{ p: 1 }}>BNB: {wallet.bnbBalance}</Typography>
                         {/* Кнопки для переключения между сетями */}

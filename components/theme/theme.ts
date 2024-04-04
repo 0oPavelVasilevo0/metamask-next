@@ -1,10 +1,6 @@
 'use client'
-import { PaletteMode, Theme, createTheme, outlinedInputClasses } from "@mui/material";
+import {  Theme, createTheme } from "@mui/material";
 import { amber, blue, blueGrey, brown, common, cyan, deepOrange, deepPurple, green, grey, lightBlue, lightGreen, lime, orange, pink, purple, red, teal, yellow, indigo } from "@mui/material/colors/";
-import { dark } from "@mui/material/styles/createPalette";
-import { error } from "console";
-import { useMemo, useState } from "react";
-
 
 export const lightTheme: Theme = createTheme({
 
@@ -97,22 +93,5 @@ export const customTheme = createTheme(
                 xl: 1536,
             },
         },
-        // palette:
-        // {
-        //     text: {
-        //         primary: grey[800],
-        //         secondary: grey[500],
-        //     },
-        //     background: {
-        //         default: grey[800],
-        //         paper: grey[800],
-        //     },
-        //     primary: blueGrey,
-        //     secondary: brown,
-        //     success: teal,
-        //     info: brown,
-        //     error: red,
-        //     warning: lime,
-        // },
     }
 );

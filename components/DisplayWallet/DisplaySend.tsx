@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button, FilledInput, FormControl, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Button, FilledInput, FormControl, InputAdornment, InputLabel, OutlinedInput, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { FaEthereum } from 'react-icons/fa';
 import { SiTether } from 'react-icons/si';
@@ -7,7 +7,6 @@ import { CiRepeat } from 'react-icons/ci';
 import { SiBinance } from "react-icons/si";
 import useCryptoData from '@/hooks/useCryptoData';
 import { useMetaMask } from '@/hooks/useMetaMask';
-import { fromWei, toWei } from 'web3-utils';
 import { MdClose, MdDone } from 'react-icons/md';
 
 
@@ -21,7 +20,7 @@ export default function DisplaySend() {
     //             transform: 'rotate(90deg)'
     //         }
     //     }
-        
+
     // };
     const { wallet } = useMetaMask()
     const { ethereum } = useCryptoData();
@@ -121,7 +120,7 @@ export default function DisplaySend() {
                 <Box sx={{ m: 2 }}>
                     <Stack direction="row" spacing={2}>
                         <Button fullWidth
-                            variant={selectedCoin === 'BNB' ? 'contained' : 'outlined'}
+                            variant={selectedCoin === 'BNB' ? 'outlined' : 'text'}
                             startIcon={<SiBinance fill='orange' />}
                             onClick={() => {
                                 handleCoinClick('BNB')
@@ -131,7 +130,7 @@ export default function DisplaySend() {
                             BNB
                         </Button>
                         <Button fullWidth
-                            variant={(!selectedCoin ? 'outlined' : 'contained')}
+                            variant={(!selectedCoin ? 'text' : 'outlined')}
                             startIcon={<FaEthereum fill='DodgerBlue' />}
                             onClick={() => {
                                 handleCoinClick(isTestnet ? 'SepoliaETH' : 'ETH')
@@ -140,7 +139,7 @@ export default function DisplaySend() {
                             ETH
                         </Button>
                         <Button fullWidth
-                            variant={selectedCoin === 'USDT' ? 'contained' : 'outlined'}
+                            variant={selectedCoin === 'USDT' ? 'outlined' : 'text'}
                             startIcon={<SiTether fill='limeGreen' />}
                             onClick={() => {
                                 handleCoinClick('USDT')
@@ -158,7 +157,7 @@ export default function DisplaySend() {
                                 selectedCoin === 'BNB' ? wallet.bnbBalance :
                                     selectedCoin === 'ETH' ? wallet.ethBalance :
                                         selectedCoin === 'SepoliaETH' ? wallet.ethBalance :
-                                        'chooce coin'
+                                            'chooce coin'
                             }
                         </InputLabel>
                         <OutlinedInput
@@ -177,6 +176,7 @@ export default function DisplaySend() {
                             label="balance: 00000"
                             disabled={selectedCoin ? false : true}  // Обновляем disabled в зависимости от выбранной монеты
                             color='warning'
+                            autoComplete='off'
                         />
                     </FormControl>
                 </Box>
@@ -193,7 +193,7 @@ export default function DisplaySend() {
                 </Button>
             </Box>
             <Box sx={{ mb: isSmallScreen ? 0 : 3, display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
-                <CiRepeat style={{ width: isSmallScreen ? '34' : '44', height: 'auto', transform: isSmallScreen ? 'rotate(90deg)' : 'none', fill:'grey'}} />
+                <CiRepeat style={{ width: isSmallScreen ? '34' : '44', height: 'auto', transform: isSmallScreen ? 'rotate(90deg)' : 'none', fill: 'grey' }} />
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ m: 2 }}>
@@ -249,6 +249,7 @@ export default function DisplaySend() {
                             // label="enter address recipient"
                             label={recipientAddress.length === 42 ? 'correct address entered' : recipientAddress.length === 0 ? 'enter address recipient' : 'invalid address entered'}
                             disabled={(selectedCoin ? false : true)}
+                            autoComplete='off'
                         />
                     </FormControl>
                 </Box>

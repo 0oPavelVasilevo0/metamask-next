@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import "../styles/main.css"
-// import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,6 +15,7 @@ export const metadata: Metadata = {
 };
 export const viewport: Viewport = {
   themeColor: "#000000",
+  width: 1,
 }
 
 export default function RootLayout({
@@ -27,9 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* <main className="container"> */}
         {children}
-        {/* </main> */}
       </body>
     </html>
   );

@@ -129,7 +129,7 @@ export default function DisplayExchange() {
                 <Box sx={{ m: 2 }}>
                     <Stack direction="row" spacing={2}>
                         <Button fullWidth
-                            variant={selectedCoin === 'BNB' ? 'contained' : 'outlined'}
+                            variant={selectedCoin === 'BNB' ? 'outlined' : 'text'}
                             startIcon={<SiBinance fill='orange' />}
                             disabled={isTestnet ? true : false}
                             onClick={() => {
@@ -139,7 +139,7 @@ export default function DisplayExchange() {
                             BNB
                         </Button>
                         <Button fullWidth
-                            variant={selectedCoin === 'ETH' ? 'contained' : 'outlined'}
+                            variant={selectedCoin === 'ETH' ? 'outlined' : 'text'}
                             startIcon={<FaEthereum fill='DodgerBlue' />}
                             disabled={isTestnet ? true : false}
                             onClick={() => {
@@ -149,7 +149,7 @@ export default function DisplayExchange() {
                             ETH
                         </Button>
                         <Button fullWidth
-                            variant={selectedCoin === 'USDT' ? 'contained' : 'outlined'}
+                            variant={selectedCoin === 'USDT' ? 'outlined' : 'text'}
                             startIcon={<SiTether fill='limeGreen' />}
                             disabled={isTestnet ? true : false}
                             onClick={() => {
@@ -185,6 +185,7 @@ export default function DisplayExchange() {
                             value={inputValue}
                             onChange={handleInjectChange}
                             color='warning'
+                            autoComplete='off'
                         />
                     </FormControl>
                 </Box>
@@ -200,11 +201,11 @@ export default function DisplayExchange() {
                     >
                         Exchange
                     </Button>
-                {isTestnet && (
-                    <Typography textAlign={'center'} sx={{ mt: 'auto', mb: 'auto' }} color={'error'} fontSize={12}>
-                        not available on testnet
-                    </Typography>
-                )}
+                    {isTestnet && (
+                        <Typography textAlign={'center'} sx={{ mt: 'auto', mb: 'auto' }} color={'error'} fontSize={12}>
+                            not available on testnet
+                        </Typography>
+                    )}
                 </Box>
             </Box>
             <Box sx={{ mb: isSmallScreen ? 0 : 3, display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
@@ -214,7 +215,7 @@ export default function DisplayExchange() {
                 <Box sx={{ m: 2 }}>
                     <Stack direction="row" spacing={2}>
                         <Button fullWidth
-                            variant={selectedExchangeCoin === 'BNB' ? 'contained' : 'outlined'}
+                            variant={selectedExchangeCoin === 'BNB' ? 'outlined' : 'text'}
                             startIcon={<SiBinance fill='orange' />}
                             onClick={() => {
                                 handleExchangeCoinClick('BNB')
@@ -229,7 +230,7 @@ export default function DisplayExchange() {
                             BNB
                         </Button>
                         <Button fullWidth
-                            variant={selectedExchangeCoin === 'ETH' ? 'contained' : 'outlined'}
+                            variant={selectedExchangeCoin === 'ETH' ? 'outlined' : 'text'}
                             startIcon={<FaEthereum fill='DodgerBlue' />}
                             onClick={() => {
                                 handleExchangeCoinClick('ETH')
@@ -245,7 +246,7 @@ export default function DisplayExchange() {
                             ETH
                         </Button>
                         <Button fullWidth
-                            variant={selectedExchangeCoin === 'USDT' ? 'contained' : 'outlined'}
+                            variant={selectedExchangeCoin === 'USDT' ? 'outlined' : 'text'}
                             startIcon={<SiTether fill='limeGreen' />}
                             onClick={() => {
                                 handleExchangeCoinClick('USDT')
@@ -269,7 +270,7 @@ export default function DisplayExchange() {
                                     selectedExchangeCoin === 'ETH' ? wallet.ethBalance :
                                         'choose coin'
                             } */}
-                            {selectedExchangeCoin ? '': 'choose coin' }
+                            {selectedExchangeCoin ? '' : 'choose coin'}
                         </InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-amount"
