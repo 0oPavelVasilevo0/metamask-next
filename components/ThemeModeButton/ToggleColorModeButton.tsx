@@ -30,7 +30,6 @@ export default function ToggleColorModeButton() {
             <Tooltip title='theme mode' arrow>
                 <IconButton
                     onClick={handleOpen}
-                    aria-label="fingerprint"
                     ref={buttonRef}
                     size='small'
                     color='primary'
@@ -51,14 +50,16 @@ export default function ToggleColorModeButton() {
                     <MenuItem
                         onClick={() => { handleSwitchTheme(IThemeMode.LIGHT) }}
                         selected={themeMode === IThemeMode.LIGHT}
+                        dense
                     >
-                        < BsEmojiSunglasses />
+                        <BsEmojiSunglasses />
                     </MenuItem >
                 </Tooltip>
                 <Tooltip title='dark' placement="left" arrow>
                     <MenuItem
                         onClick={() => { handleSwitchTheme(IThemeMode.DARK) }}
                         selected={themeMode === IThemeMode.DARK}
+                        dense
                     >
                         <FaRegLightbulb />
                     </MenuItem >
@@ -67,6 +68,7 @@ export default function ToggleColorModeButton() {
                     <MenuItem
                         onClick={() => { handleSwitchTheme(IThemeMode.SYSTEM) }}
                         selected={themeMode === IThemeMode.SYSTEM}
+                        dense
                     >
                         <MdAutoMode />
                     </MenuItem >
