@@ -1,9 +1,10 @@
 'use client'
-import { Box, Button, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Button, Tooltip, useMediaQuery, useTheme } from '@mui/material'
 // import React from 'react'
 import PopoverWallet from '../PopoverWallet/PopoverWallet'
 import { useMetaMask } from '@/hooks/useMetaMask'
 import { customTheme } from '../theme/theme';
+import ToggleColorModeButton from '../ThemeModeButton/ToggleColorModeButton';
 
 declare global {
     interface Window {
@@ -14,9 +15,10 @@ declare global {
 export default function WalletNavigation() {
 
     const { wallet, hasProvider, isConnecting, connectMetaMask } = useMetaMask()
-    const theme = useTheme();
+    // const theme = useTheme();
     // const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
     const isSmallScreen = useMediaQuery(customTheme.breakpoints.down('sm'));
+    const isExtraSmallScreen = useMediaQuery(customTheme.breakpoints.down('xs'));
 
     // Проверяем, доступен ли объект window и ethereum
     // const isBrowser = typeof window !== 'undefined'
@@ -77,8 +79,13 @@ export default function WalletNavigation() {
 
             {/* Показываем компонент PopoverWallet, если провайдер установлен и есть аккаунты */}
             {hasProvider && wallet.accounts.length > 0 && (
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <PopoverWallet />
+                <Box sx={{ display: 'flex', ml: isExtraSmallScreen ? '0' : '28px', alignItems: 'center' }}>
+                    <Box mr={'auto'} ml={'auto'}>
+                        <PopoverWallet />
+                    </Box>
+                    <Box >
+                            <ToggleColorModeButton />
+                    </Box>
                 </Box>
             )}
 
