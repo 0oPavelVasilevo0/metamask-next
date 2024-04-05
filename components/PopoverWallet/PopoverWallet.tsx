@@ -7,7 +7,7 @@ import { useMetaMask } from '@/hooks/useMetaMask';
 import { formatAddress } from '@/utils';
 import { Box, Link, Stack, Tooltip } from '@mui/material';
 import { useState } from 'react';
-import { MdArrowDropDown } from 'react-icons/md';
+import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
 import { RxExternalLink } from 'react-icons/rx';
 import { IoCopyOutline } from 'react-icons/io5';
 
@@ -33,6 +33,7 @@ export default function PopoverWallet() {
             setCopied(false); // Сбрасываем состояние "copied" обратно в false через 1 секунду
         }, 1000)
     };
+
 
     // const handleLinkClick = (url: string | URL | undefined) => {
     //     window.open(url, '_blank');
@@ -88,8 +89,9 @@ export default function PopoverWallet() {
                 <Box>
                     <Button
                         sx={{ flexDirection: 'row' }}
-                        endIcon={<MdArrowDropDown style={{ width: '24', height: 'auto', alignItems: 'center' }} />}
-                        {...bindTrigger(popupState)}>
+                        endIcon={ !popupState.isOpen ? <MdArrowDropDown style={{ width: '24', height: 'auto' }} /> : <MdArrowDropUp style={{ width: '24', height: 'auto' }} />}
+                        {...bindTrigger(popupState)}
+                        >
                         Metamask
                         {isTestnet &&
                             <Typography color={'orangeRed'} fontSize={12} sx={{ textShadow: 'black 1px 0 10px' }} fontWeight={'bold'} pt={0.4} fontFamily={'fantasy'}  >
@@ -97,11 +99,6 @@ export default function PopoverWallet() {
                             </Typography>
                         }Wallet
                     </Button>
-                    {/* {isTestnet &&
-                        <Typography color={'error'} fontSize={14} textAlign={'center'} >
-                            Testnet
-                        </Typography>
-                    } */}
                     <Popover sx={{ textAlign: 'end' }}
                         {...bindPopover(popupState)}
                         anchorOrigin={{
@@ -147,7 +144,7 @@ export default function PopoverWallet() {
                                 Go to etherscan
                             </a>
                         </Typography> */}
-                        <Typography sx={{ p: 1, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottom: '1px solid black', alignItems: 'center' }}>
+                        <Typography sx={{ p: 1, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottom: 0.5, alignItems: 'center' }}>
                             <Tooltip title='copy' arrow sx={{ cursor: 'pointer' }}>
                                 <Typography color={copied ? 'limeGreen' : 'none'} mr={'auto'} ml={'auto'} onClick={() => handleCopy(wallet.accounts[0])}>
                                     {formatAddress(wallet.accounts[0])}

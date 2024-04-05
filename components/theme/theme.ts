@@ -1,6 +1,6 @@
 'use client'
-import {  Theme, createTheme } from "@mui/material";
-import { amber, blue, blueGrey, brown, common, cyan, deepOrange, deepPurple, green, grey, lightBlue, lightGreen, lime, orange, pink, purple, red, teal, yellow, indigo } from "@mui/material/colors/";
+import { Theme, createTheme } from "@mui/material";
+import {blueGrey, brown, cyan, grey, lime, red, teal, } from "@mui/material/colors/";
 
 export const lightTheme: Theme = createTheme({
 
@@ -15,6 +15,13 @@ export const lightTheme: Theme = createTheme({
                     },
                 },
             ],
+            styleOverrides: {
+                endIcon: [
+                    {
+                        margin: '0px -10px 0px -1px',
+                    },
+                ]
+            }
         },
     },
 
@@ -54,8 +61,16 @@ export const darkTheme: Theme = createTheme({
                     },
                 },
             ],
+            styleOverrides: {
+                endIcon: [
+                    {
+                        margin: '0px -10px 0px -1px',
+                    },
+                ]
+            }
         },
     },
+
     breakpoints: {
         values: {
             xs: 340,
