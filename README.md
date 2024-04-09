@@ -2,8 +2,7 @@ page that connects to Chrome extension [Metamask](https://metamask.io).
 
 [metamask-wallet-next.vercel.app](https://metamask-wallet-next.vercel.app/)
 
-<img src="./public/v/metamask-1.png" width=40% height=40% alt="screenshot"/>  <img src="./public/v/metamask-2.png" width=40% height=40%} alt="screenshot"/>
-<img src="./public/v/metamask-3.png" alt="screenshot"/>
+<img src="./public/v/metamask-1.png" width=25% height=25% alt="screenshot"/> <img src="./public/v/metamask-2.png" width=25% height=25% alt="screenshot"/> <img src="./public/v/metamask-3.png" width=50% height=50% alt="screenshot"/>
 
 NextJs, TypeScript, Mui.
 
