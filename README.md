@@ -1,10 +1,9 @@
 page that connects to Chrome extension [Metamask](https://metamask.io).
 
 [metamask-wallet-next.vercel.app](https://metamask-wallet-next.vercel.app/)
-<div style="display: flex; justify-content: center;">
+
 <img src="./public/v/metamask-3.png" width=50% height=50% alt="screenshot"/>
-</div>
-<div style="display: flex; justify-content: space-around;">
+<div style="display: flex;">
 <img src="./public/v/metamask-1.png" width=25% height=25% alt="screenshot"/><img src="./public/v/metamask-2.png" width=25% height=25% alt="screenshot"/>
 </div>
 
