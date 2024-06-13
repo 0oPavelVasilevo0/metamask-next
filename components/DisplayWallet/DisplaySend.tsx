@@ -162,7 +162,7 @@ export default function DisplaySend() {
                         </InputLabel>
                         <OutlinedInput
                             value={transactionAmount}
-                            onChange={(event) => setTransactionAmount(event.target.value)}
+                            onChange={(e) => { if (/^\d*$/.test(e.target.value)) {setTransactionAmount(e.target.value)}}}
                             id="outlined-adornment-amount"
                             endAdornment={<InputAdornment position="end">
                                 <Typography
