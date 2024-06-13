@@ -38,8 +38,13 @@ export default function DisplayBuy() {
         setOutputValue('')
     };
 
+    //rating crypto
+    const [ratesCrypto, setRatesCrypto] = useState('')
+    const handleRatesClick = (rates: React.SetStateAction<string>) => {
+        setRatesCrypto(rates)
+    }
     //select Cash
-    const [selectedCash, setSelectedCash] = useState('USD')
+    const [selectedCash, setSelectedCash] = useState<string>('USD')
     // рабочий вариант
     // const handleCashClick = (cash: React.SetStateAction<string>) => {
     //     setSelectedCash(cash)
@@ -49,6 +54,7 @@ export default function DisplayBuy() {
         setSelectedCash(cash); // Обновляем выбранную валюту
         // Обновляем курс в зависимости от выбранной валюты
         let rate;
+        // let rate: number | undefined;
         switch (selectedCoin) {
             case 'BNB':
                 rate = cash === 'USD' ? binancecoin?.usd : cash === 'EUR' ? binancecoin?.eur : cash === 'RUB' ? binancecoin?.rub : 0;
@@ -63,7 +69,9 @@ export default function DisplayBuy() {
                 rate = 0; // Если выбранная монета неизвестна, используем курс 0
                 break;
         }
-        setRatesCrypto(`1.00 ${selectedCoin} = ${rate} ${cash}`); // Устанавливаем новый курс в состояние
+        const useRate = rate !== undefined ? `1.00 ${selectedCoin} = ${rate} ${cash}` : '* refresh page to request data';
+        setRatesCrypto(useRate); // Устанавливаем новый курс в состояние
+        // setRatesCrypto(rate);
     };
     //Эта функция будет возвращать курс для указанной криптовалюты (BNB, ETH, USDT) в выбранной валюте (USD, EUR, RUB)
     const ratesInSelectedCash = (coin: string) => {
@@ -78,13 +86,6 @@ export default function DisplayBuy() {
                 return 0; // Если выбранная валюта неизвестна, вернуть 0
         }
     };
-
-
-    //rating crypto
-    const [ratesCrypto, setRatesCrypto] = useState('')
-    const handleRatesClick = (rates: React.SetStateAction<string>) => {
-        setRatesCrypto(rates)
-    }
 
     // Обновляем состояние ввода при изменении выбранной монеты или валюты
     useEffect(() => {
@@ -194,7 +195,7 @@ export default function DisplayBuy() {
                             disabled={isTestnet ? true : false}
                             onClick={() => {
                                 handleCoinClick('BNB')
-                                handleRatesClick(`1.00 BNB = ${ratesInSelectedCash('BNB')} ${selectedCash}`)
+                                handleRatesClick((ratesInSelectedCash('BNB') !== undefined) ? `1.00 BNB = ${ratesInSelectedCash('BNB')} ${selectedCash}` : '* refresh page to request data')
                             }} >
                             BNB
                         </Button>
@@ -205,7 +206,7 @@ export default function DisplayBuy() {
                             disabled={isTestnet ? true : false}
                             onClick={() => {
                                 handleCoinClick('ETH')
-                                handleRatesClick(`1.00 ETH = ${ratesInSelectedCash('ETH')} ${selectedCash}`)
+                                handleRatesClick(ratesInSelectedCash('ETH') !== undefined ? `1.00 ETH = ${ratesInSelectedCash('ETH')} ${selectedCash}` : '* refresh page to request data')
                             }}
                         >
                             ETH
@@ -217,7 +218,7 @@ export default function DisplayBuy() {
                             disabled={isTestnet ? true : false}
                             onClick={() => {
                                 handleCoinClick('USDT')
-                                handleRatesClick(`1.00 USDT = ${ratesInSelectedCash('USDT')} ${selectedCash}`)
+                                handleRatesClick(ratesInSelectedCash('USD') !== undefined ? `1.00 USDT = ${ratesInSelectedCash('USDT')} ${selectedCash}` : '* refresh page to request data')
                             }} >
                             USDT
                         </Button>
@@ -332,6 +333,10 @@ export default function DisplayBuy() {
                     </FormControl>
                 </Box>
             </Box>
+            {ratesCrypto === '* refresh page to request data' && (<Typography variant='button' sx={{gridColumn: 'span 3', color: 'red', px: 2, textAlign: 'left'}}>
+                * The app uses a free API, so try refreshing the page or wait a bit.
+            </Typography>)}
+            
         </Box>
     )
 }
