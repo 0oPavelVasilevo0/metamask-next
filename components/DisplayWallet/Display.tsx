@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
 import { useMetaMask } from '@/hooks/useMetaMask';
-import { useMediaQuery } from '@mui/material';
+import { Paper, useMediaQuery } from '@mui/material';
 import DisplayBuy from './DisplayBuy';
 import DisplayExchange from './DisplayExchange';
 import { MetaMaskError } from '../Error/MetaMaskError';
@@ -64,15 +64,14 @@ export default function Display() {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
-
+    const usePaper = !(hasProvider && wallet.accounts.length > 0) || !isSmallScreen;
 
     return (
-            <Box
+        <Box component={(usePaper) ? Paper : 'div'} elevation={(usePaper) ? 6 : 0}
                 sx={{
                     minHeight: isSmallScreen ? '100vh' : undefined,
                     width: isSmallScreen ? '100vw' : undefined,
-                    border: (hasProvider && wallet.accounts.length > 0) ? 0.5 : 0,
-                    borderRadius: isSmallScreen ? undefined : 1,
+                    //// border: !(hasProvider && wallet.accounts.length > 0) ||  isSmallScreen ? 0 : 0.5,
                     justifyContent: isSmallScreen ? 'center' : undefined,
                     // background: (hasProvider && wallet.accounts.length > 0) ? '#FFFFFF' : 'rgb(38, 38, 38)',
                 }}
