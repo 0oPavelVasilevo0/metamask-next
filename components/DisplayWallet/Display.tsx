@@ -71,7 +71,7 @@ export default function Display() {
                 sx={{
                     minHeight: isSmallScreen ? '100vh' : undefined,
                     width: isSmallScreen ? '100vw' : undefined,
-                    border: (!hasProvider && !wallet.accounts.length) ? 0: isSmallScreen ? 0 : 0.5,
+                    border: (hasProvider && wallet.accounts.length > 0) ? 0.5 : 0,
                     borderRadius: isSmallScreen ? undefined : 1,
                     justifyContent: isSmallScreen ? 'center' : undefined,
                     // background: (hasProvider && wallet.accounts.length > 0) ? '#FFFFFF' : 'rgb(38, 38, 38)',
