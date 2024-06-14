@@ -154,27 +154,46 @@ export default function DisplaySend() {
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <FormControl fullWidth sx={{ m: 2, mb: 0, mt: 0 }}>
                         <InputLabel htmlFor="outlined-adornment-amount">
-                            balance: {
-                                selectedCoin === 'BNB' ? wallet.bnbBalance :
-                                    selectedCoin === 'ETH' ? wallet.ethBalance :
-                                        selectedCoin === 'SepoliaETH' ? wallet.ethBalance :
+                            {
+                                selectedCoin === 'BNB' ? `balance: ${wallet.bnbBalance}` :
+                                    selectedCoin === 'ETH' ? `balance: ${wallet.ethBalance}` :
+                                        selectedCoin === 'SepoliaETH' ? `balance: ${wallet.ethBalance}` :
                                             'chooce coin'
                             }
                         </InputLabel>
                         <OutlinedInput
                             value={transactionAmount}
-                            onChange={(e) => { if (/^\d*\.?\d*$/.test(e.target.value)) {setTransactionAmount(e.target.value)}}}
+                            onChange={(e) => { if (/^\d*\.?\d*$/.test(e.target.value)) { setTransactionAmount(e.target.value) } }}
                             id="outlined-adornment-amount"
                             endAdornment={<InputAdornment position="end">
                                 <Typography
                                     color={
                                         selectedCoin === 'BNB' ? 'orange' :
                                             selectedCoin === 'ETH' ? 'DodgerBlue' :
-                                                selectedCoin === 'USDT' ? 'lightGreen' : 'error'}>
-                                    {selectedCoin}
+                                                selectedCoin === 'USDT' ? 'lightGreen' :
+                                                    // selectedCoin === 'SepoliaETH' ? 'error' :
+                                                        'error'
+                                    }>
+                                    {selectedCoin === 'SepoliaETH' ? (
+                                        <>
+                                            <span style={{ color: 'error' }}>
+                                                Sepolia
+                                            </span>
+                                            <span style={{ color: 'DodgerBlue' }}>
+                                                ETH
+                                            </span>
+                                        </>
+                                    ) :
+                                        selectedCoin
+                                    }
                                 </Typography>
                             </InputAdornment>}
-                            label="balance: 00000"
+                            label={
+                                selectedCoin === 'BNB' ? `balance: ${wallet.bnbBalance}` :
+                                    selectedCoin === 'ETH' ? `balance: ${wallet.ethBalance}` :
+                                        selectedCoin === 'SepoliaETH' ? `balance: ${wallet.ethBalance}` :
+                                            'chooce coin'
+                            }
                             disabled={selectedCoin ? false : true}  // Обновляем disabled в зависимости от выбранной монеты
                             color='warning'
                             autoComplete='off'
@@ -265,7 +284,7 @@ export default function DisplaySend() {
                     </FormControl>
                 </Box>
             </Box>
-            {ethereum === undefined && (<Typography variant='button' sx={{ gridColumn: 'span 3', color: 'red', px: 2, textAlign: 'left' }}>
+            {(selectedCoin && useEth === '* refresh page to request data') && (<Typography variant='button' sx={{ gridColumn: 'span 3', color: 'red', px: 2, textAlign: 'left' }}>
                 * The app uses a free API, so try refreshing the page or wait a bit.
             </Typography>)}
         </Box>

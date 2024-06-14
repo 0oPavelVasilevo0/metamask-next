@@ -220,7 +220,7 @@ export default function DisplayBuy() {
                             disabled={isTestnet ? true : false}
                             onClick={() => {
                                 handleCoinClick('USDT')
-                                handleRatesClick(ratesInSelectedCash('USD') !== undefined ? `1.00 USDT = ${ratesInSelectedCash('USDT')} ${selectedCash}` : '* refresh page to request data')
+                                handleRatesClick(ratesInSelectedCash('USDT') !== undefined ? `1.00 USDT = ${ratesInSelectedCash('USDT')} ${selectedCash}` : '* refresh page to request data')
                             }} >
                             USDT
                         </Button>
@@ -229,10 +229,11 @@ export default function DisplayBuy() {
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <FormControl fullWidth sx={{ m: 2, mb: 0, mt: 0 }}>
                         <InputLabel htmlFor="outlined-adornment-amount">
-                            balance: {
-                                selectedCoin === 'BNB' ? wallet.bnbBalance :
-                                    selectedCoin === 'ETH' ? wallet.ethBalance :
-                                        'choose coin'
+                         {
+                                selectedCoin === 'BNB' ? `balance: ${wallet.bnbBalance}`:
+                                    selectedCoin === 'ETH' ? `balance: ${wallet.ethBalance}` :
+                                        selectedCoin === 'USDT' ? 'no coins' :
+                                                 'choose coin'
                             }
                         </InputLabel>
                         <OutlinedInput
@@ -246,7 +247,12 @@ export default function DisplayBuy() {
                                     {selectedCoin}
                                 </Typography>
                             </InputAdornment>}
-                            label="balance: 0.000"
+                            label={
+                                selectedCoin === 'BNB' ? `balance: ${wallet.bnbBalance}`:
+                                    selectedCoin === 'ETH' ? `balance: ${wallet.ethBalance}` :
+                                        selectedCoin === 'USDT' ? 'no coins' :
+                                                 'choose coin'
+                            }
                             disabled={selectedCoin ? false : true}
                             value={inputValue}
                             onChange={handleInputChange}

@@ -165,10 +165,11 @@ export default function DisplayExchange() {
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <FormControl fullWidth sx={{ m: 2, mb: 0, mt: 0 }}>
                         <InputLabel htmlFor="outlined-adornment-amount">
-                            balance: {
-                                selectedCoin === 'BNB' ? wallet.bnbBalance :
-                                    selectedCoin === 'ETH' ? wallet.ethBalance :
-                                        'chooce coin'
+                            {
+                                selectedCoin === 'BNB' ? `balance: ${wallet.bnbBalance}` :
+                                    selectedCoin === 'ETH' ? `balance: ${wallet.ethBalance}` :
+                                        selectedCoin === 'USDT' ? 'no coins' :
+                                            'choose coin'
                             }
                         </InputLabel>
                         <OutlinedInput
@@ -182,7 +183,12 @@ export default function DisplayExchange() {
                                     {selectedCoin}
                                 </Typography>
                             </InputAdornment>}
-                            label="balance: 00000"
+                            label={
+                                selectedCoin === 'BNB' ? `balance: ${wallet.bnbBalance}` :
+                                    selectedCoin === 'ETH' ? `balance: ${wallet.ethBalance}` :
+                                        selectedCoin === 'USDT' ? 'no coins' :
+                                            'choose coin'
+                            }
                             disabled={selectedCoin ? false : true}  // Обновляем disabled в зависимости от выбранной монеты
                             value={inputValue}
                             onChange={handleInjectChange}
