@@ -41,6 +41,7 @@ export default function DisplaySend() {
         setSelectedCoin('');
     }, [isTestnet]);
 
+    const useEth = ethereum !== undefined ? `1.00 ETH = ${ethereum?.usd} USD` : '* refresh page to request data';
     // // Функция для расчета gasLimit
     // const calculateGasLimit = (transactionAmount: any) => {
     //     // Ваша логика расчета gasLimit на основе введенной суммы
@@ -162,7 +163,7 @@ export default function DisplaySend() {
                         </InputLabel>
                         <OutlinedInput
                             value={transactionAmount}
-                            onChange={(e) => { if (/^\d*$/.test(e.target.value)) {setTransactionAmount(e.target.value)}}}
+                            onChange={(e) => { if (/^\d*\.?\d*$/.test(e.target.value)) {setTransactionAmount(e.target.value)}}}
                             id="outlined-adornment-amount"
                             endAdornment={<InputAdornment position="end">
                                 <Typography
@@ -181,7 +182,7 @@ export default function DisplaySend() {
                     </FormControl>
                 </Box>
                 <Box sx={{ mt: 1, ml: 2, mr: 2, display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography fontSize={10} color='secondary'>{selectedCoin ? `1.00 ETH = ${ethereum?.usd} USD` : ''}</Typography>
+                    <Typography fontSize={10} color='secondary'>{selectedCoin ? useEth : ''}</Typography>
                     <Typography fontSize={10} >
                         source: <Link
                             underline="none"
@@ -264,6 +265,9 @@ export default function DisplaySend() {
                     </FormControl>
                 </Box>
             </Box>
+            {ethereum === undefined && (<Typography variant='button' sx={{ gridColumn: 'span 3', color: 'red', px: 2, textAlign: 'left' }}>
+                * The app uses a free API, so try refreshing the page or wait a bit.
+            </Typography>)}
         </Box>
     )
 }

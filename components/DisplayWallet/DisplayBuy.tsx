@@ -97,74 +97,76 @@ export default function DisplayBuy() {
     const [outputValue, setOutputValue] = useState('');
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const inputAmount = parseFloat(event.target.value);
-        if (!isNaN(inputAmount)) {
-            setInputValue(event.target.value);
-            let rate;
-            switch (selectedCoin) {
-                case ('BNB'):
-                    // rate = binancecoin?.usd;
-                    // break;
-                    switch (selectedCash) {
-                        case 'USD':
-                            rate = binancecoin?.usd;
-                            break;
-                        case 'EUR':
-                            rate = binancecoin?.eur;
-                            break;
-                        case 'RUB':
-                            rate = binancecoin?.rub;
-                            break;
-                        default:
-                            rate = 1; // Если выбранная валюта неизвестна, используем курс 1:1
-                            break;
-                    }
-                    break;
-                case 'ETH':
-                    // rate = ethereum?.usd;
-                    // break;
-                    switch (selectedCash) {
-                        case 'USD':
-                            rate = ethereum?.usd;
-                            break;
-                        case 'EUR':
-                            rate = ethereum?.eur;
-                            break;
-                        case 'RUB':
-                            rate = ethereum?.rub;
-                            break;
-                        default:
-                            rate = 1; // Если выбранная валюта неизвестна, используем курс 1:1
-                            break;
-                    }
-                    break;
-                case 'USDT':
-                    // rate = tether?.usd;
-                    // break;
-                    switch (selectedCash) {
-                        case 'USD':
-                            rate = tether?.usd;
-                            break;
-                        case 'EUR':
-                            rate = tether?.eur;
-                            break;
-                        case 'RUB':
-                            rate = tether?.rub;
-                            break;
-                        default:
-                            rate = 1; // Если выбранная валюта неизвестна, используем курс 1:1
-                            break;
-                    }
-                    break;
-                default:
-                    rate = 1; // Если выбранная монета неизвестна, используем курс 1:1
+        if (/^\d*\.?\d*$/.test(event.target.value)) {
+            const inputAmount = parseFloat(event.target.value);
+            if (!isNaN(inputAmount)) {
+                setInputValue(event.target.value);
+                let rate;
+                switch (selectedCoin) {
+                    case ('BNB'):
+                        // rate = binancecoin?.usd;
+                        // break;
+                        switch (selectedCash) {
+                            case 'USD':
+                                rate = binancecoin?.usd;
+                                break;
+                            case 'EUR':
+                                rate = binancecoin?.eur;
+                                break;
+                            case 'RUB':
+                                rate = binancecoin?.rub;
+                                break;
+                            default:
+                                rate = 1; // Если выбранная валюта неизвестна, используем курс 1:1
+                                break;
+                        }
+                        break;
+                    case 'ETH':
+                        // rate = ethereum?.usd;
+                        // break;
+                        switch (selectedCash) {
+                            case 'USD':
+                                rate = ethereum?.usd;
+                                break;
+                            case 'EUR':
+                                rate = ethereum?.eur;
+                                break;
+                            case 'RUB':
+                                rate = ethereum?.rub;
+                                break;
+                            default:
+                                rate = 1; // Если выбранная валюта неизвестна, используем курс 1:1
+                                break;
+                        }
+                        break;
+                    case 'USDT':
+                        // rate = tether?.usd;
+                        // break;
+                        switch (selectedCash) {
+                            case 'USD':
+                                rate = tether?.usd;
+                                break;
+                            case 'EUR':
+                                rate = tether?.eur;
+                                break;
+                            case 'RUB':
+                                rate = tether?.rub;
+                                break;
+                            default:
+                                rate = 1; // Если выбранная валюта неизвестна, используем курс 1:1
+                                break;
+                        }
+                        break;
+                    default:
+                        rate = 1; // Если выбранная монета неизвестна, используем курс 1:1
+                }
+                if (rate) {
+                    setOutputValue((inputAmount * rate).toFixed(2));
+                }
+            } else {
+                setInputValue('');
+                setOutputValue('');
             }
-            if (rate) {
-                setOutputValue((inputAmount * rate).toFixed(2));
-            }
-        } else {
-            setInputValue('');
-            setOutputValue('');
         }
     };
 
@@ -333,10 +335,10 @@ export default function DisplayBuy() {
                     </FormControl>
                 </Box>
             </Box>
-            {ratesCrypto === '* refresh page to request data' && (<Typography variant='button' sx={{gridColumn: 'span 3', color: 'red', px: 2, textAlign: 'left'}}>
+            {ratesCrypto === '* refresh page to request data' && (<Typography variant='button' sx={{ gridColumn: 'span 3', color: 'red', px: 2, textAlign: 'left' }}>
                 * The app uses a free API, so try refreshing the page or wait a bit.
             </Typography>)}
-            
+
         </Box>
     )
 }

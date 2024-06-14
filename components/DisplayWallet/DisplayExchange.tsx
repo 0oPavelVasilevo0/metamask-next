@@ -48,6 +48,7 @@ export default function DisplayExchange() {
     }, [selectedExchangeCoin]);
 
     const handleInjectChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (/^\d*\.?\d*$/.test(event.target.value)) {
         const inputAmount = parseFloat(event.target.value);
         if (!isNaN(inputAmount)) {
             setInputValue(event.target.value);
@@ -107,6 +108,7 @@ export default function DisplayExchange() {
         } else {
             setInputValue('');
             setOutputValue('');
+        }
         }
     };
 
@@ -232,7 +234,7 @@ export default function DisplayExchange() {
                                 handleRatesClick(
                                     selectedCoin === 'ETH' && ethereum && ethereum.usd && binancecoin && binancecoin.usd ? `1.00 ${selectedCoin} = ${(ethereum?.usd / binancecoin?.usd).toFixed(2)} BNB` :
                                         selectedCoin === 'USDT' && tether && tether.usd && binancecoin && binancecoin.usd ? `1.00 ${selectedCoin} = ${(tether?.usd / binancecoin?.usd).toFixed(5)} BNB` :
-                                            ''
+                                            '* refresh page to request data'
                                 )
                             }}
                             disabled={(selectedCoin === 'BNB' ? true : false) || (selectedCoin ? false : true)}
@@ -247,7 +249,7 @@ export default function DisplayExchange() {
                                 handleRatesClick(
                                     selectedCoin === 'BNB' && ethereum && ethereum.usd && binancecoin && binancecoin.usd ? `1.00 ${selectedCoin} = ${(binancecoin?.usd / ethereum?.usd).toFixed(2)} ETH` :
                                         selectedCoin === 'USDT' && tether && tether.usd && ethereum && ethereum.usd ? `1.00 ${selectedCoin} = ${(tether?.usd / ethereum?.usd).toFixed(5)} ETH` :
-                                            ''
+                                            '* refresh page to request data'
                                 )
 
                             }}
@@ -263,7 +265,7 @@ export default function DisplayExchange() {
                                 handleRatesClick(
                                     selectedCoin === 'BNB' && tether && tether.usd && binancecoin && binancecoin.usd ? `1.00 ${selectedCoin} = ${(binancecoin?.usd / tether?.usd).toFixed(2)} USDT` :
                                         selectedCoin === 'ETH' && tether && tether.usd && ethereum && ethereum.usd ? `1.00 ${selectedCoin} = ${(ethereum.usd / tether?.usd).toFixed(2)} USDT` :
-                                            ''
+                                            '* refresh page to request data'
                                 )
                             }}
                             disabled={(selectedCoin === 'USDT' ? true : false) || (selectedCoin ? false : true)}
@@ -303,6 +305,9 @@ export default function DisplayExchange() {
                     </FormControl>
                 </Box>
             </Box>
+            {ratesCrypto === '* refresh page to request data' && (<Typography variant='button' sx={{ gridColumn: 'span 3', color: 'red', px: 2, textAlign: 'left' }}>
+                * The app uses a free API, so try refreshing the page or wait a bit.
+            </Typography>)}
         </Box>
     )
 }
